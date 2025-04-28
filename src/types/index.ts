@@ -1,3 +1,5 @@
-import * as IFile from './File';
+import { ReactNode } from 'react';
 
-export { IFile };
+export type ContextWrapperProps = {
+  children: ReactNode;
+};

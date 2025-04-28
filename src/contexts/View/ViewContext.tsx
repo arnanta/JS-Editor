@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ViewContext from '@/contexts/View/Context';
+import { ContextWrapperProps } from '@/types';
 
 const ViewContextWrapper = ({ children }: ContextWrapperProps) => {
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
