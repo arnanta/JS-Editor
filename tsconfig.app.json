@@ -3,11 +3,7 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     /* Bundler mode */
@@ -26,36 +22,16 @@
     // aliases
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@header/*": [
-        "src/Header/*"
-      ],
-      "@editor/*": [
-        "src/Editor/*"
-      ],
-      "@explorer/*": [
-        "src/Explorer/*"
-      ],
-      "@console/*": [
-        "src/Console/*"
-      ],
-      "@types/*": [
-        "src/types/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@assets/*": [
-        "src/assets/*"
-      ]
-    },
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+      "@header/*": ["src/Header/*"],
+      "@editor/*": ["src/Editor/*"],
+      "@explorer/*": ["src/Explorer/*"],
+      "@console/*": ["src/Console/*"],
+      "@types/*": ["src/types/*"],
+      "@utils/*": ["src/utils/*"],
+      "@assets/*": ["src/assets/*"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }
