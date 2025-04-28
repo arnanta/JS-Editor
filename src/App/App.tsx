@@ -1,7 +1,7 @@
 import './App.css';
 
 function App() {
-  return <></>;
+  return <>JS Code Editor</>;
 }
 
 export default App;
