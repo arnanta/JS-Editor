@@ -1,13 +1,13 @@
 import ViewContextWrapper from '@/contexts/View/ViewContext';
 import style from './App.module.css';
 
-import Header from '@/Header';
+import Container from '@/container/Container';
 
 function App() {
   return (
     <div className={style.container}>
       <ViewContextWrapper>
-        <Header />
+        <Container />
       </ViewContextWrapper>
     </div>
   );
