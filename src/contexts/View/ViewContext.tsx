@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ViewContext from '@/contexts/View/Context';
 
 const ViewContextWrapper = ({ children }: ContextWrapperProps) => {
-  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [showSidebar, setShowSidebar] = useState<boolean>(true);
   const [showConsole, setShowConsole] = useState<boolean>(false);
 
   const onClickSideBarIcon = () => {

@@ -9,6 +9,8 @@
   cursor: pointer;
   padding: 4px 8px;
   user-select: none;
+  display: flex;
+  gap: 0.5rem;
 
   &:hover {
     background-color: #242424;
@@ -21,8 +23,3 @@
   margin-left: 16px;
   border-left: 1px dashed yellow;
 }
-
-/* .file {
-    padding: 4px 8px;
-    cursor: pointer;
-} */
