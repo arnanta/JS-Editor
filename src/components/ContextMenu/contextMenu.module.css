@@ -1,0 +1,21 @@
+.header_modal {
+    box-shadow: rgba(100, 100, 111) 0px 0px 5px 0px;
+    border-radius: 12px;
+    position: absolute;
+    width: fit-content;
+    top: 45px;
+    padding: 12px;
+    background-color: rgb(36, 36, 36);
+}
+
+.header_options {
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    text-align: left;
+    font-size: 1rem;
+
+}
+.header_options:hover {
+    box-shadow: rgba(100, 100, 111) 0px 0px 5px 0px;
+}
