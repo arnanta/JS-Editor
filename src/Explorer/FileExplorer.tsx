@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+/*eslint-disable no-unused-vars*/
+import { useState } from 'react';
 import style from './styles/FileExplorer.module.css';
 import { folderStructure } from './FolderStructure';
-import {
-  NewFile,
-  AddFile,
-  Folder as FolderIcon,
-  CollapseAll,
-  ExplorerIcon,
-} from '../assets/icons';
+import { AddFile, Folder as FolderIcon, CollapseAll, ExplorerIcon } from '../assets/icons';
 
 interface FileNode {
-  type: 'file' | 'folder';
+  type: string;
   name: string;
   children?: FileNode[];
 }
 
 const Folder = ({ item }: { item: FileNode }) => {
   const [expanded, setExpanded] = useState(false);
-  const [selectedNode, setSelectedNode] = useState<FileNode | null>(null);
-  const [fileTree, setFileTree] = useState<FileNode[]>();
+  // const [selectedNode, setSelectedNode] = useState<FileNode | null>(null);
+  // const [fileTree, setFileTree] = useState<FileNode[]>();
   //! Not needed
   if (item.type === 'file') {
     return <div className={style.file}>{item.name}</div>;
@@ -26,7 +21,8 @@ const Folder = ({ item }: { item: FileNode }) => {
 
   const handleFolderClick = () => {
     setExpanded(!expanded);
-    setSelectedNode(item.name);
+    // setSelectedNode(item.name);
+    // console.log(selectedNode);
   };
 
   return (
@@ -57,7 +53,7 @@ const FileExplorer = () => {
       {/* Toolbar */}
       <div className={style.toolbar}>
         <ExplorerIcon />
-        <NewFile onClick={() => setIsCreatingNew(true)} />
+        {/* <NewFile onClick={() => setIsCreatingNew(true)} /> */}
         <AddFile />
         <FolderIcon />
         <CollapseAll />
