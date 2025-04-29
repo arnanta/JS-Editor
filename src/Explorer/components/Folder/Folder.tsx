@@ -1,26 +1,33 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import style from './Folder.module.css';
 import { IFile } from '@/types';
+import NavigationContext from '@/contexts/Navigation/Context';
 
 const Folder = ({ item }: { item: IFile.FileNode }) => {
+  const { updateOpenedFiles } = useContext(NavigationContext);
+
   const [expanded, setExpanded] = useState(false);
   // const [selectedNode, setSelectedNode] = useState<FileNode | null>(null);
   // const [fileTree, setFileTree] = useState<FileNode[]>();
-  //! Not needed
-  if (item.type === 'file') {
-    return <div className={`${style.file} ${style.node}`}>{item.name}</div>;
-  }
 
   const handleFolderClick = () => {
-    setExpanded((prev) => !prev);
+    item.type === 'folder' && setExpanded((prev) => !prev);
+    item.type === 'file' && updateOpenedFiles(item);
     // setSelectedNode(item.name);
     // console.log(selectedNode);
+  };
+
+  const getNodeItem = () => {
+    if (item.type === 'file') return null;
+    else {
+      return expanded ? '📂' : '📁';
+    }
   };
 
   return (
     <div className={style.folder}>
       <div className={`${style.folderName} ${style.node}`} onClick={handleFolderClick}>
-        {expanded ? '📂' : '📁'} {item.name}
+        {getNodeItem()} {item.name}
       </div>
 
       {expanded && item.children && (

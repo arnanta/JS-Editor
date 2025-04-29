@@ -1,7 +1,16 @@
 import { IFile } from '@/types';
+import { createContext } from 'react';
 
-type NavigationContextType = {
-  openedFiles: Map<string, Nullable<IFile.FileObject>>;
+export type NavigationContextType = {
+  openedFiles: Map<string, Nullable<IFile.FileNode>>;
+  updateOpenedFiles: (fileObject: IFile.FileNode) => void;
 };
 
-export default NavigationContextType;
+const initialState: NavigationContextType = {
+  openedFiles: new Map(),
+  updateOpenedFiles: () => {},
+};
+
+const NavigationContext = createContext(initialState);
+
+export default NavigationContext;
