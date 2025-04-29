@@ -4,6 +4,7 @@ import { Fragment, useContext } from 'react';
 import FileExplorer from '@/Explorer/FileExplorer';
 import style from './Container.module.css';
 import NavigationContextWrapper from '@/contexts/Navigation/NavigationContext';
+import Editor from '@/Editor';
 const Container = () => {
   const { showConsole, showSidebar } = useContext(ViewContext);
 
@@ -18,7 +19,7 @@ const Container = () => {
             </div>
           ) : null}
           <div className={style.right}>
-            <div>Editor</div>
+            <Editor />
           </div>
         </div>
       </NavigationContextWrapper>
