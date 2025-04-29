@@ -1,12 +1,3 @@
-import { ReactNode } from 'react';
+import * as IFile from './File';
 
-export type ContextWrapperProps = {
-  children: ReactNode;
-};
-
-export type FileObject = {
-  name: string;
-  path: string;
-  isDirty: boolean;
-  isActive: boolean;
-};
+export { IFile };

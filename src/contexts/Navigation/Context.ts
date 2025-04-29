@@ -1,7 +1,7 @@
-import { FileObject } from '@/types';
+import { IFile } from '@/types';
 
 type NavigationContextType = {
-  openedFiles: Map<string, Nullable<FileObject>>;
+  openedFiles: Map<string, Nullable<IFile.FileObject>>;
 };
 
 export default NavigationContextType;

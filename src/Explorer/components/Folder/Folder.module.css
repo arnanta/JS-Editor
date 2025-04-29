@@ -1,0 +1,28 @@
+.folder {
+  justify-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.node {
+  cursor: pointer;
+  padding: 4px 8px;
+  user-select: none;
+
+  &:hover {
+    background-color: #242424;
+  }
+}
+
+/* .folderName {} */
+
+.children {
+  margin-left: 16px;
+  border-left: 1px dashed yellow;
+}
+
+/* .file {
+    padding: 4px 8px;
+    cursor: pointer;
+} */

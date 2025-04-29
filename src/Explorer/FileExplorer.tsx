@@ -1,50 +1,8 @@
-import React, { useState } from 'react';
-import style from './styles/FileExplorer.module.css';
-import { folderStructure } from './FolderStructure';
-import {
-  NewFile,
-  AddFile,
-  Folder as FolderIcon,
-  CollapseAll,
-  ExplorerIcon,
-} from '../assets/icons';
-
-interface FileNode {
-  type: 'file' | 'folder';
-  name: string;
-  children?: FileNode[];
-}
-
-const Folder = ({ item }: { item: FileNode }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [selectedNode, setSelectedNode] = useState<FileNode | null>(null);
-  const [fileTree, setFileTree] = useState<FileNode[]>();
-  //! Not needed
-  if (item.type === 'file') {
-    return <div className={style.file}>{item.name}</div>;
-  }
-
-  const handleFolderClick = () => {
-    setExpanded(!expanded);
-    setSelectedNode(item.name);
-  };
-
-  return (
-    <div className={style.folder}>
-      <div className={style.folderName} onClick={handleFolderClick}>
-        {expanded ? '📂' : '📁'} {item.name}
-      </div>
-
-      {expanded && item.children && (
-        <div className={style.children}>
-          {item.children.map((child, index) => (
-            <Folder key={index} item={child} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+import { useState } from 'react';
+import style from './FileExplorer.module.css';
+import { folderStructure } from './constants/FolderStructure';
+import { AddFile, Folder as FolderIcon, CollapseAll, ExplorerIcon } from '@/assets/icons';
+import Folder from '@/Explorer/components/Folder/Folder';
 
 const FileExplorer = () => {
   const [isCreatingNew, setIsCreatingNew] = useState(false);
@@ -57,7 +15,7 @@ const FileExplorer = () => {
       {/* Toolbar */}
       <div className={style.toolbar}>
         <ExplorerIcon />
-        <NewFile onClick={() => setIsCreatingNew(true)} />
+        {/* <NewFile onClick={() => setIsCreatingNew(true)} /> */}
         <AddFile />
         <FolderIcon />
         <CollapseAll />
@@ -80,7 +38,7 @@ const FileExplorer = () => {
         </div>
       )}
       {/* File Structure */}
-      <div className={style.verticalLine}>
+      <div className={style.tree_container}>
         <Folder item={folderStructure} />
       </div>
     </div>
