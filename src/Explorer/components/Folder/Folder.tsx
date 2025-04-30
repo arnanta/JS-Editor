@@ -7,21 +7,33 @@ interface FolderProps {
   item: IFile.FileNode;
   isCreatingNew: boolean;
   selectedNodeData: IFile.FileNode | null;
+  isRenaming: boolean;
+  renamingNode: IFile.FileNode | null;
   onNodeSelect: (node: IFile.FileNode) => void;
   onCreate: (fileName: string) => void;
+  onContextMenu: (e: React.MouseEvent, node: IFile.FileNode) => void;
+  handleRename: (newName: string) => void;
 }
 
 const Folder: FC<FolderProps> = ({
   item,
   isCreatingNew,
   selectedNodeData,
+  isRenaming,
+  renamingNode,
   onNodeSelect,
   onCreate,
+  onContextMenu,
+  handleRename,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
   if (item.type === 'file') {
-    return <div className={`${style.file} ${style.node}`}>{item.name}</div>;
+    return (
+      <div className={`${style.file} ${style.node}`} onContextMenu={(e) => onContextMenu(e, item)}>
+        {item.name}
+      </div>
+    );
   }
 
   const handleFolderClick = () => {
@@ -30,7 +42,7 @@ const Folder: FC<FolderProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && e.currentTarget.value) {
+    if (e.key === 'Enter' && e.currentTarget.value && !isRenaming) {
       onCreate(e.currentTarget.value);
     }
   };
@@ -44,22 +56,39 @@ const Folder: FC<FolderProps> = ({
 
   return (
     <div className={style.folder}>
-      <div className={`${style.folderName} ${style.node}`} onClick={handleFolderClick}>
+      <div
+        className={`${style.folderName} ${style.node}`}
+        onClick={handleFolderClick}
+        onContextMenu={(e) => onContextMenu(e, item)}
+      >
         {getNodeItem()} {item.name}
         {expanded ? <FolderOpen /> : <FolderIcon />} {item.name}
       </div>
 
+      {isRenaming && renamingNode?.name === item.name && (
+        <input
+          autoFocus
+          type="text"
+          className="inputClass"
+          placeholder="Rename file/folder"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && e.currentTarget.value) {
+              handleRename(e.currentTarget.value);
+            }
+          }}
+          onBlur={(e) => handleRename(e.currentTarget.value)}
+        />
+      )}
+
       {isCreatingNew && selectedNodeData?.name === item.name && (
         <div className="inputWrapper">
-          {' '}
-          {/* //Need to be writen in style(Pronay) */}
           <input
             autoFocus
             type="text"
-            className="inputClass" //Need to be writen in style(Pronay)
+            className="inputClass"
             placeholder="new file/folder name"
             onKeyDown={handleKeyDown}
-            onBlur={() => onCreate('')} // Cancel on blur
+            onBlur={() => onCreate('')}
           />
         </div>
       )}
@@ -74,6 +103,10 @@ const Folder: FC<FolderProps> = ({
               isCreatingNew={isCreatingNew}
               selectedNodeData={selectedNodeData}
               onCreate={onCreate}
+              onContextMenu={onContextMenu}
+              isRenaming={isRenaming}
+              handleRename={handleRename}
+              renamingNode={renamingNode}
             />
           ))}
         </div>
