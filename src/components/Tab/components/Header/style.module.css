@@ -28,5 +28,11 @@
     & p {
       font-weight: 500;
     }
+
+    & button {
+      background: transparent;
+      border: none;
+      outline: none;
+    }
   }
 }
