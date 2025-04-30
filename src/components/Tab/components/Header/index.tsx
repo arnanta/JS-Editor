@@ -9,15 +9,25 @@ type TabHeaderProps = {
 };
 
 const TabHeader = ({ file }: TabHeaderProps) => {
-  const { selectedFile, updateSelectedFile } = useContext(NavigationContext);
+  const { selectedFile, updateSelectedFile, closeFile } = useContext(NavigationContext);
   const [selected, setSelected] = useState<boolean>(false);
+
+  const handleClose = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    closeFile(file);
+  };
+
   useEffect(() => {
     setSelected(selectedFile !== null && selectedFile.name === file.name);
   }, [selectedFile, file]);
+
   return (
     <div className={style.header_container} onClick={() => updateSelectedFile(file)}>
       <div className={`${style.header_content} ${selected ? style.selected : null}`}>
-        <p>{file.name}</p> <CloseIcon />
+        <p>{file.name}</p>
+        <button onClick={handleClose}>
+          <CloseIcon />
+        </button>
       </div>
     </div>
   );

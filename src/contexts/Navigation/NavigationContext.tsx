@@ -23,7 +23,17 @@ const NavigationContextWrapper: React.FC<ContextWrapperProps> = ({ children }) =
 
   const closeFile = (file: IFile.FileNode) => {
     if (selectedFile && selectedFile.name === file.name) {
-      updateSelectedFile(null);
+      let newSelectedFile: Nullable<IFile.FileNode> = null;
+      if (openedFiles.size > 1) {
+        const openFileNames = Array.from(openedFiles.keys());
+        const currentSelectedFileIndex = openFileNames.indexOf(file.name);
+        const previousOpenFileInTab = openFileNames[currentSelectedFileIndex - 1];
+
+        newSelectedFile = openedFiles.has(previousOpenFileInTab)
+          ? openedFiles.get(previousOpenFileInTab)!
+          : null;
+      }
+      updateSelectedFile(newSelectedFile);
     }
 
     setOpenedFile({ type: ACTION_TYPES.DELETE, key: file.name });
