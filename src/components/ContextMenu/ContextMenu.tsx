@@ -5,7 +5,7 @@ import ContextMenuOptions from './Components/ContextMenuOptions';
 
 type ContextMenuProps = {
   data: any;
-  onClickOptions: (item: { title: string; path: string }) => void;
+  onClickOptions?: (item: { title: string; path: string }) => void;
   htmlRef: HTMLElement;
   isNested?: boolean;
   position?: string;
@@ -14,6 +14,7 @@ type ContextMenuProps = {
 const ContextMenu = ({
   data,
   htmlRef,
+  onClickOptions,
   isNested = false,
   position = 'bottom',
 }: ContextMenuProps) => {
@@ -21,15 +22,10 @@ const ContextMenu = ({
 
   const handleToolbarOptionClick = (option: any): void => {
     setSelectedKey(option.key); // Update the selected option
-    // if (option.childData?.length) {
-    // } else {
-    //   onClickOptions({ title: option.title, path: option.path });
-    // }
   };
 
   const getPopoverStyle = () => {
     if (htmlRef) {
-      console.log('htmlRef', htmlRef, htmlRef.getBoundingClientRect());
       return {
         top: isNested
           ? htmlRef.getBoundingClientRect().top

@@ -11,7 +11,14 @@ const ContextMenuOptions = ({ option, handleToolbarOptionClick, isSelected }: an
     if (option.childData && option.childData.length) {
       setShowNestedContextMenu(true);
     } else {
-      option.onClick?.();
+      option.onClick();
+    }
+    handleToolbarOptionClick(option, targetElement.current);
+  };
+
+  const handleOptionMouseEnter = (option: any) => {
+    if (option.childData && option.childData.length) {
+      setShowNestedContextMenu(true);
     }
     handleToolbarOptionClick(option, targetElement.current);
   };
@@ -24,7 +31,7 @@ const ContextMenuOptions = ({ option, handleToolbarOptionClick, isSelected }: an
     <div
       className={`${style.header_options} ${isSelected ? style.selected_options : ''}`}
       onClick={() => handleOptionClick(option)}
-      onMouseEnter={() => handleOptionClick(option)}
+      onMouseEnter={() => handleOptionMouseEnter(option)}
       ref={targetElement}
     >
       <div>{option.title}</div>
@@ -34,12 +41,7 @@ const ContextMenuOptions = ({ option, handleToolbarOptionClick, isSelected }: an
         </div>
       )}
       {option.childData && targetElement && showNestedContextMenu && (
-        <ContextMenu
-          data={option.childData}
-          onClickOptions={handleToolbarOptionClick}
-          htmlRef={targetElement.current!}
-          isNested={true}
-        />
+        <ContextMenu data={option.childData} htmlRef={targetElement.current!} isNested={true} />
       )}
     </div>
   );

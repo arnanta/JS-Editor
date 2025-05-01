@@ -1,4 +1,4 @@
-import { useState, useContext, useRef } from 'react';
+import { useContext, useRef } from 'react';
 import style from './Header.module.css';
 import {
   BottomSectionHidden,
@@ -10,43 +10,22 @@ import {
 } from '@assets/icons';
 
 import ViewContext from '@/contexts/View/Context';
+import HeaderToolbarContext from '@/contexts/Header/context';
 import { ContextMenu } from '@/components';
 import { HeaderConstants } from '@/constants';
 
-// Define a separate type for the toolbar option
-type ToolbarOption = {
-  title: string;
-  path: string;
-};
-
 const Header = () => {
-  const [isToolbarVisible, setIsToolbarVisible] = useState<boolean>(false);
+  // const [isToolbarVisible, setIsToolbarVisible] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { showSidebar, showConsole, onClickSideBarIcon, onClickConsoleIcon } =
     useContext(ViewContext);
-
-  const handletoolbarClick = ({ title, path }: ToolbarOption) => {
-    console.log('🚀 ~ handletoolbarClick ~ path:', path);
-    switch (title) {
-      case 'File':
-        console.log('File clicked');
-        break;
-      case 'Terminal':
-        onClickConsoleIcon();
-        break;
-      case 'Help':
-        console.log('Help clicked');
-        break;
-    }
-    toggleToolbarVisibilty();
-  };
+  const { isToolbarVisible, toggleToolbarVisibilty } = useContext(HeaderToolbarContext);
 
   window.addEventListener('click', (event: Event) => {
     event.preventDefault();
     event.stopPropagation();
 
     const path = event.composedPath();
-    console.log('🚀 ~ window.addEventListener ~ path:', path);
     if (headerRef.current && !path.includes(headerRef.current)) {
       let isHeaderModalPresent = false;
 
@@ -55,12 +34,12 @@ const Header = () => {
           isHeaderModalPresent = true;
         }
       });
-      !isHeaderModalPresent && setIsToolbarVisible(false);
+      !isHeaderModalPresent && toggleToolbarVisibilty();
     }
   });
-  const toggleToolbarVisibilty = () => {
-    setIsToolbarVisible((prev) => !prev);
-  };
+  // const toggleToolbarVisibilty = () => {
+  //   setIsToolbarVisible((prev) => !prev);
+  // };
 
   return (
     <div className={style.container}>
@@ -69,11 +48,7 @@ const Header = () => {
         {isToolbarVisible ? <ChevronUp /> : <ChevronDown />}
       </div>
       {isToolbarVisible && headerRef.current && (
-        <ContextMenu
-          data={HeaderConstants.headerToolbarData}
-          htmlRef={headerRef.current}
-          onClickOptions={handletoolbarClick}
-        />
+        <ContextMenu data={HeaderConstants.headerToolbarData} htmlRef={headerRef.current} />
       )}
       <div className={style.slot_container}>
         <div className={style.icon_container} onClick={onClickSideBarIcon}>

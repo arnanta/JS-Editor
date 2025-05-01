@@ -1,3 +1,4 @@
+import { handleToolbarClick } from '@/Header/helper';
 const headerToolbarData = [
   {
     title: 'File',
@@ -8,16 +9,28 @@ const headerToolbarData = [
         title: 'File1',
         key: 'file1',
         path: 'file/file1',
+        childData: [],
+        onClick: function () {
+          handleToolbarClick({ title: this.title, path: this.path });
+        },
       },
       {
         title: 'File2',
         key: 'file2',
         path: 'file/file2',
+        childData: [],
+        onClick: function () {
+          handleToolbarClick({ title: this.title, path: this.path });
+        },
       },
       {
         title: 'File3',
         key: 'file3',
         path: 'file/file3',
+        childData: [],
+        onClick: function () {
+          handleToolbarClick({ title: this.title, path: this.path });
+        },
       },
     ],
   },
@@ -35,6 +48,10 @@ const headerToolbarData = [
             title: 'Terminal1.1',
             key: 'terminal1.1',
             path: 'terminal/terminal1/terminal1.1',
+            childData: [],
+            onClick: function () {
+              handleToolbarClick({ title: this.title, path: this.path });
+            },
           },
         ],
       },
@@ -42,13 +59,21 @@ const headerToolbarData = [
         title: 'Terminal2',
         key: 'terminal2',
         path: 'terminal/terminal2',
+        childData: [],
+        onClick: function () {
+          handleToolbarClick({ title: this.title, path: this.path });
+        },
       },
     ],
   },
   {
     title: 'Help',
     key: 'help',
-    // onClick: Function
+    path: 'help',
+    childData: [],
+    onClick: function () {
+      handleToolbarClick({ title: this.title, path: this.path });
+    },
   },
 ];
 
