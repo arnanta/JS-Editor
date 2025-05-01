@@ -1,35 +1,36 @@
 import { handleToolbarClick } from '@/Header/helper';
-const headerToolbarData = [
+import { ContextMenuData } from '@/types';
+const headerToolbarData: ContextMenuData.ContextMenuData[] = [
   {
     title: 'File',
     key: 'file',
     path: 'file',
-    childData: [
+    subMenu: [
       {
         title: 'File1',
         key: 'file1',
         path: 'file/file1',
-        childData: [],
+        subMenu: [],
         onClick: function () {
-          handleToolbarClick({ title: this.title, path: this.path });
+          handleToolbarClick({ title: this.title });
         },
       },
       {
         title: 'File2',
         key: 'file2',
         path: 'file/file2',
-        childData: [],
+        subMenu: [],
         onClick: function () {
-          handleToolbarClick({ title: this.title, path: this.path });
+          handleToolbarClick({ title: this.title });
         },
       },
       {
         title: 'File3',
         key: 'file3',
         path: 'file/file3',
-        childData: [],
+        subMenu: [],
         onClick: function () {
-          handleToolbarClick({ title: this.title, path: this.path });
+          handleToolbarClick({ title: this.title });
         },
       },
     ],
@@ -38,19 +39,19 @@ const headerToolbarData = [
     title: 'Terminal',
     key: 'terminal',
     path: 'terminal',
-    childData: [
+    subMenu: [
       {
         title: 'Terminal1',
         key: 'terminal1',
         path: 'terminal/terminal1',
-        childData: [
+        subMenu: [
           {
             title: 'Terminal1.1',
             key: 'terminal1.1',
             path: 'terminal/terminal1/terminal1.1',
-            childData: [],
+            subMenu: [],
             onClick: function () {
-              handleToolbarClick({ title: this.title, path: this.path });
+              handleToolbarClick({ title: this.title });
             },
           },
         ],
@@ -59,9 +60,9 @@ const headerToolbarData = [
         title: 'Terminal2',
         key: 'terminal2',
         path: 'terminal/terminal2',
-        childData: [],
+        subMenu: [],
         onClick: function () {
-          handleToolbarClick({ title: this.title, path: this.path });
+          handleToolbarClick({ title: this.title });
         },
       },
     ],
@@ -70,9 +71,9 @@ const headerToolbarData = [
     title: 'Help',
     key: 'help',
     path: 'help',
-    childData: [],
+    subMenu: [],
     onClick: function () {
-      handleToolbarClick({ title: this.title, path: this.path });
+      handleToolbarClick({ title: this.title });
     },
   },
 ];

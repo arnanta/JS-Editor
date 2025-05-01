@@ -1,15 +1,9 @@
-import { useContext } from 'react';
-import HeaderToolbarContext from '@/contexts/Header/context';
-
 // Define a separate type for the toolbar option
 type ToolbarOption = {
   title: string;
-  path: string;
 };
 
-export const handleToolbarClick = ({ title, path }: ToolbarOption) => {
-  const { toggleToolbarVisibilty } = useContext(HeaderToolbarContext);
-  console.log('🚀 ~ handletoolbarClick ~ path:', path);
+export const handleToolbarClick = ({ title }: ToolbarOption) => {
   switch (title) {
     case 'File':
       console.log('File clicked');

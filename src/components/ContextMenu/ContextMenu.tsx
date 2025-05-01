@@ -2,14 +2,7 @@ import style from './contextMenu.module.css';
 import { createPortal } from 'react-dom';
 import { useState } from 'react';
 import ContextMenuOptions from './Components/ContextMenuOptions';
-
-type ContextMenuProps = {
-  data: any;
-  onClickOptions?: (item: { title: string; path: string }) => void;
-  htmlRef: HTMLElement;
-  isNested?: boolean;
-  position?: string;
-};
+import { ContextMenuData } from '@/types';
 
 const ContextMenu = ({
   data,
@@ -17,10 +10,10 @@ const ContextMenu = ({
   onClickOptions,
   isNested = false,
   position = 'bottom',
-}: ContextMenuProps) => {
+}: ContextMenuData.ContextMenu) => {
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
 
-  const handleToolbarOptionClick = (option: any): void => {
+  const handleToolbarOptionClick = (option: ContextMenuData.ContextMenuData): void => {
     setSelectedKey(option.key); // Update the selected option
   };
 
@@ -43,10 +36,11 @@ const ContextMenu = ({
       style={getPopoverStyle()}
       id="header-modal"
     >
-      {data.map((option: any) => (
+      {data.map((option: ContextMenuData.ContextMenuData) => (
         <ContextMenuOptions
           key={option.key}
           option={option}
+          onClickOptions={onClickOptions}
           handleToolbarOptionClick={handleToolbarOptionClick}
           isSelected={selectedKey === option.key}
         />

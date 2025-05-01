@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useState, useContext, useRef } from 'react';
 import style from './Header.module.css';
 import {
   BottomSectionHidden,
@@ -10,16 +10,14 @@ import {
 } from '@assets/icons';
 
 import ViewContext from '@/contexts/View/Context';
-import HeaderToolbarContext from '@/contexts/Header/context';
 import { ContextMenu } from '@/components';
 import { HeaderConstants } from '@/constants';
 
 const Header = () => {
-  // const [isToolbarVisible, setIsToolbarVisible] = useState<boolean>(false);
+  const [isToolbarVisible, setIsToolbarVisible] = useState<boolean>(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const { showSidebar, showConsole, onClickSideBarIcon, onClickConsoleIcon } =
     useContext(ViewContext);
-  const { isToolbarVisible, toggleToolbarVisibilty } = useContext(HeaderToolbarContext);
 
   window.addEventListener('click', (event: Event) => {
     event.preventDefault();
@@ -34,12 +32,12 @@ const Header = () => {
           isHeaderModalPresent = true;
         }
       });
-      !isHeaderModalPresent && toggleToolbarVisibilty();
+      !isHeaderModalPresent && setIsToolbarVisible(false);
     }
   });
-  // const toggleToolbarVisibilty = () => {
-  //   setIsToolbarVisible((prev) => !prev);
-  // };
+  const toggleToolbarVisibilty = () => {
+    setIsToolbarVisible((prev) => !prev);
+  };
 
   return (
     <div className={style.container}>
@@ -48,7 +46,11 @@ const Header = () => {
         {isToolbarVisible ? <ChevronUp /> : <ChevronDown />}
       </div>
       {isToolbarVisible && headerRef.current && (
-        <ContextMenu data={HeaderConstants.headerToolbarData} htmlRef={headerRef.current} />
+        <ContextMenu
+          onClickOptions={toggleToolbarVisibilty}
+          data={HeaderConstants.headerToolbarData}
+          htmlRef={headerRef.current}
+        />
       )}
       <div className={style.slot_container}>
         <div className={style.icon_container} onClick={onClickSideBarIcon}>
