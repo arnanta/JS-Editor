@@ -8,6 +8,7 @@
   min-width: 200px;
   background-color: rgb(36, 36, 36);
 }
+
 .subheader_modal {
   left: 100%;
 }
@@ -27,8 +28,10 @@
     width: 1.25rem;
     margin-left: 0.5rem;
     user-select: none;
-    -webkit-user-select: none; /* Safari */
-    -moz-user-select: none; /* Firefox */
+    -webkit-user-select: none;
+    /* Safari */
+    -moz-user-select: none;
+    /* Firefox */
     -ms-user-select: none;
   }
 
@@ -36,6 +39,7 @@
     display: flex;
   }
 }
+
 .header_options:hover,
 .selected_options {
   box-shadow: rgba(100, 100, 111) 0px 0px 5px 0px;

@@ -46,8 +46,16 @@ const Header = () => {
     event.stopPropagation();
 
     const path = event.composedPath();
+    console.log('🚀 ~ window.addEventListener ~ path:', path);
     if (headerRef.current && !path.includes(headerRef.current)) {
-      setIsToolbarVisible(false);
+      let isHeaderModalPresent = false;
+
+      path.forEach((el) => {
+        if ((el as HTMLElement).id === 'header-modal') {
+          isHeaderModalPresent = true;
+        }
+      });
+      !isHeaderModalPresent && setIsToolbarVisible(false);
     }
   });
   const toggleToolbarVisibilty = () => {
