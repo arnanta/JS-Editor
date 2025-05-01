@@ -4,7 +4,7 @@ import { folderStructure } from './constants/FolderStructure';
 import { AddFile, Folder as FolderIcon, CollapseAll } from '@/assets/icons';
 import Folder from '@/Explorer/components/Folder/Folder';
 import { IFile } from '@/types';
-import { fileContextMenuOptions, folderContextMenuOptions } from './constants/ContextMenuoptions';
+import { fileContextMenuOptions, folderContextMenuOptions } from './constants/ContextMenuOptions';
 
 const FileExplorer = () => {
   type NodeType = 'file' | 'folder';
@@ -15,6 +15,8 @@ const FileExplorer = () => {
   const [isRenaming, setIsRenaming] = useState(false);
   const [renamingNode, setRenamingNode] = useState<IFile.FileNode | null>(null);
   const [selectedNodeData, setSelectedNodeData] = useState<IFile.FileNode | null>(null);
+  const [copiedNode, setCopiedNode] = useState<IFile.FileNode | null>(null);
+  const [isCutOperation, setIsCutOperation] = useState(false);
   const [treeData, setTreeData] = useState<IFile.FileNode>(() => deepClone(folderStructure));
   const [newNodeType, setNewNodeType] = useState<NodeType>('file');
   const [contextMenu, setContextMenu] = useState<{
@@ -31,6 +33,11 @@ const FileExplorer = () => {
 
   const handleNodeSelect = (node: IFile.FileNode) => {
     setSelectedNodeData(node);
+  };
+
+  const handleCutNode = (node: IFile.FileNode) => {
+    setCopiedNode(node);
+    setIsCutOperation(true);
   };
 
   const getContextOptions = (type: string) =>
@@ -134,11 +141,113 @@ const FileExplorer = () => {
     setRenamingNode(null);
   };
 
+  function removeNodeByMatchImmutable(node: any, target: any): any {
+    if (JSON.stringify(node) === JSON.stringify(target)) {
+      return null;
+    }
+
+    if (node.type === 'folder' && Array.isArray(node.children)) {
+      const updatedChildren = node.children
+        .map((child: any) => removeNodeByMatchImmutable(child, target))
+        .filter(Boolean);
+
+      return { ...node, children: updatedChildren };
+    }
+    return node;
+  }
+  const handleDeletion = (node: IFile.FileNode) => {
+    if (node) {
+      const updatedTree = removeNodeByMatchImmutable(treeData, node);
+      setTreeData(updatedTree);
+      localStorage.setItem('fileTree', JSON.stringify(updatedTree));
+    }
+  };
+
+  const handleCopyNode = (node: IFile.FileNode) => {
+    //! The node got copied
+    setCopiedNode(node);
+  };
+
+  const handlePasteNode = (
+    currentNode: IFile.FileNode,
+    targetNodeName: string,
+    copiedNode: IFile.FileNode,
+  ): IFile.FileNode => {
+    if (currentNode.type === 'folder') {
+      if (currentNode.name === targetNodeName) {
+        const existingNames = (currentNode.children || []).map((child) => child.name);
+
+        if (existingNames.includes(copiedNode.name)) {
+          alert('Node with the same name already exists in this folder.');
+          return currentNode;
+        }
+
+        return {
+          ...currentNode,
+          children: [
+            ...(currentNode.children || []),
+            {
+              ...copiedNode,
+              ...(copiedNode.type === 'folder' ? { children: [] } : {}),
+            },
+          ],
+        };
+      }
+
+      return {
+        ...currentNode,
+        children:
+          currentNode.children?.map((child) =>
+            handlePasteNode(child, targetNodeName, copiedNode),
+          ) || [],
+      };
+    }
+
+    return currentNode;
+  };
+
+  const pasteHandler = (targetNode: IFile.FileNode) => {
+    if (!copiedNode) return;
+
+    let updatedTree = treeData;
+
+    if (isCutOperation) {
+      updatedTree = removeNodeByMatchImmutable(updatedTree, copiedNode);
+    }
+    updatedTree = handlePasteNode(updatedTree, targetNode.name, copiedNode);
+    setTreeData(updatedTree);
+    localStorage.setItem('fileTree', JSON.stringify(updatedTree));
+    setCopiedNode(null);
+    setIsCutOperation(false);
+  };
+
   const handleContextAction = (actionType: string, node: IFile.FileNode | null) => {
     switch (actionType) {
       case 'rename':
         setIsRenaming(true);
         setRenamingNode(node);
+        break;
+      case 'delete':
+        handleDeletion(node as IFile.FileNode);
+        break;
+      case 'copy':
+        handleCopyNode(node as IFile.FileNode);
+        break;
+      case 'paste':
+        pasteHandler(node as IFile.FileNode);
+        break;
+      case 'cut':
+        handleCutNode(node as IFile.FileNode);
+        break;
+      case 'new_file':
+        setSelectedNodeData(node);
+        setNewNodeType('file');
+        setIsCreatingNew(true);
+        break;
+      case 'new_folder':
+        setSelectedNodeData(node);
+        setNewNodeType('folder');
+        setIsCreatingNew(true);
         break;
       default:
         return actionType;
