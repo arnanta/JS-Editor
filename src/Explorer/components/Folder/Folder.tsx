@@ -57,13 +57,6 @@ const Folder: FC<FolderProps> = ({
     }
   };
 
-  const getNodeItem = () => {
-    if (item.type === 'file') return null;
-    else {
-      return expanded ? '📂' : '📁';
-    }
-  };
-
   return (
     <div className={style.folder}>
       <div
@@ -71,7 +64,6 @@ const Folder: FC<FolderProps> = ({
         onClick={handleFolderClick}
         onContextMenu={(e) => onContextMenu(e, item)}
       >
-        {getNodeItem()} {item.name}
         {expanded ? <FolderOpen /> : <FolderIcon />} {item.name}
       </div>
 

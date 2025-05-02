@@ -156,6 +156,30 @@ export const FolderOpen = () => (
   </svg>
 );
 
+export const ChevronRight = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#e3e3e3"
+  >
+    <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+  </svg>
+);
+
+export const CloseIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#e3e3e3"
+  >
+    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+  </svg>
+);
+
 // Export all icons as named exports
 export default {
   ChevronDown,
@@ -170,7 +194,7 @@ export default {
   Refresh,
   CollapseAll,
   ExplorerIcon,
-  // CloseIcon,
-  // ChevronRight,
+  CloseIcon,
+  ChevronRight,
   FolderOpen,
 };
