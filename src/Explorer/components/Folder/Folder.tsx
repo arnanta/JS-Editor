@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import style from './Folder.module.css';
 import { IFile } from '@/types';
 import { FolderOpen, Folder as FolderIcon } from '@/assets/icons';
@@ -13,6 +13,8 @@ interface FolderProps {
   onCreate: (fileName: string) => void;
   onContextMenu: (e: React.MouseEvent, node: IFile.FileNode) => void;
   handleRename: (newName: string) => void;
+  onCollapseAll: () => void;
+  isCollapsed?: boolean;
 }
 
 const Folder: FC<FolderProps> = ({
@@ -25,8 +27,16 @@ const Folder: FC<FolderProps> = ({
   onCreate,
   onContextMenu,
   handleRename,
+  onCollapseAll,
+  isCollapsed,
 }) => {
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    if (isCollapsed !== undefined) {
+      setExpanded(false);
+    }
+  }, [isCollapsed]);
 
   if (item.type === 'file') {
     return (
@@ -107,6 +117,8 @@ const Folder: FC<FolderProps> = ({
               isRenaming={isRenaming}
               handleRename={handleRename}
               renamingNode={renamingNode}
+              onCollapseAll={onCollapseAll}
+              isCollapsed={isCollapsed}
             />
           ))}
         </div>

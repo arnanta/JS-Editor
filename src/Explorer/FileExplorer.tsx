@@ -25,6 +25,7 @@ const FileExplorer = () => {
     visible: boolean;
     node: IFile.FileNode | null;
   }>({ x: 0, y: 0, visible: false, node: null });
+  const [collapseTrigger, setCollapseTrigger] = useState<boolean>(false);
 
   const handleContextMenu = (event: React.MouseEvent, node: IFile.FileNode) => {
     event.preventDefault();
@@ -155,6 +156,7 @@ const FileExplorer = () => {
     }
     return node;
   }
+
   const handleDeletion = (node: IFile.FileNode) => {
     if (node) {
       const updatedTree = removeNodeByMatchImmutable(treeData, node);
@@ -164,7 +166,6 @@ const FileExplorer = () => {
   };
 
   const handleCopyNode = (node: IFile.FileNode) => {
-    //! The node got copied
     setCopiedNode(node);
   };
 
@@ -254,6 +255,10 @@ const FileExplorer = () => {
     }
   };
 
+  const collapseAllhandler = () => {
+    setCollapseTrigger((prev) => !prev);
+  };
+
   return (
     <div className={style.explorer}>
       {/* Toolbar */}
@@ -274,7 +279,7 @@ const FileExplorer = () => {
         >
           <FolderIcon />
         </button>
-        <button>
+        <button onClick={collapseAllhandler}>
           <CollapseAll />
         </button>
       </div>
@@ -294,6 +299,8 @@ const FileExplorer = () => {
           onContextMenu={handleContextMenu}
           handleRename={handleRenameAction}
           renamingNode={renamingNode}
+          onCollapseAll={collapseAllhandler}
+          isCollapsed={collapseTrigger}
         />
       </div>
 
