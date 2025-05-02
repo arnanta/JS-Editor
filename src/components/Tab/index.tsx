@@ -2,10 +2,10 @@ import TabHeader from '@/components/Tab/components/Header';
 
 import style from './style.module.css';
 import { useContext } from 'react';
-import NavigationContext from '@/contexts/Navigation/Context';
+import FileContext from '@/contexts/File/Context';
 
 const Tab = () => {
-  const { openedFiles } = useContext(NavigationContext);
+  const { openedFiles } = useContext(FileContext);
 
   const renderTabs = () => {
     return Array.from(openedFiles.entries()).map(([fileName, file]) => (

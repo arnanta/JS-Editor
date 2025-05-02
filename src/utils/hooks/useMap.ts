@@ -17,7 +17,12 @@ export type MapAction<K, V> =
  * @param initialValue - The initial Map to use
  * @returns [map, dispatch] - The current map state and dispatch function
  */
-function useMap<K, V>(initialValue: Map<K, V> = new Map()) {
+function useMap<K, V>(
+  cachingConfiguration: { shouldCache: boolean; cacheKey: string } = {
+    shouldCache: false,
+    cacheKey: '',
+  },
+) {
   const reducer = (state: Map<K, V>, action: MapAction<K, V>): Map<K, V> => {
     const newMap = new Map(state);
 
@@ -34,10 +39,30 @@ function useMap<K, V>(initialValue: Map<K, V> = new Map()) {
         break;
     }
 
+    if (cachingConfiguration.shouldCache) {
+      sessionStorage.setItem(
+        cachingConfiguration.cacheKey,
+        JSON.stringify(Array.from(newMap.entries())),
+      );
+    }
+
     return newMap;
   };
+  function getInitialValue() {
+    if (cachingConfiguration.shouldCache && cachingConfiguration.cacheKey) {
+      const storedValue = sessionStorage.getItem(cachingConfiguration.cacheKey);
+      if (storedValue) {
+        try {
+          return new Map(JSON.parse(storedValue));
+        } catch {
+          return new Map(); // fallback on parse failure
+        }
+      }
+    }
+    return new Map();
+  }
 
-  const [map, dispatch] = useReducer(reducer, initialValue);
+  const [map, dispatch] = useReducer(reducer, getInitialValue());
 
   return [map, dispatch] as const;
 }
