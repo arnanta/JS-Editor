@@ -1,19 +1,19 @@
 import { createContext } from 'react';
 
-type ViewContextType = {
+type HeaderToolbarContextType = {
   showSidebar: boolean;
   showConsole: boolean;
   onClickSideBarIcon: () => void;
   onClickConsoleIcon: () => void;
 };
 
-const initialState: ViewContextType = {
+const initialState: HeaderToolbarContextType = {
   showSidebar: false,
   showConsole: false,
   onClickSideBarIcon: () => {},
   onClickConsoleIcon: () => {},
 };
 
-const ViewContext = createContext(initialState);
+const HeaderToolbarContext = createContext(initialState);
 
-export default ViewContext;
+export default HeaderToolbarContext;
