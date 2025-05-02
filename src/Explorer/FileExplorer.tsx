@@ -1,15 +1,36 @@
-import { useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import style from './FileExplorer.module.css';
-import { folderStructure } from './constants/FolderStructure';
 import { AddFile, Folder as FolderIcon, CollapseAll, ExplorerIcon } from '@/assets/icons';
 import Folder from '@/Explorer/components/Folder/Folder';
+import FileContext from '@/contexts/File/Context';
+import { IFile } from '@/types';
 
 const FileExplorer = () => {
   const [isCreatingNew, setIsCreatingNew] = useState(false);
+  const rootNode = useRef<Nullable<IFile.FolderNode>>(null);
+  const { root, initDirectory, createNode } = useContext(FileContext);
   const handleCreateNewFile = (fileName: string) => {
     console.log('🚀 ~ handleCreateNewFile ~ fileName:', fileName);
     //! Will add the file with the name and type file to the list of folders creating a copy of it
   };
+
+  useEffect(() => {
+    if (root) {
+      rootNode.current = root;
+      sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
+      createNode('index.js', IFile.NODE_TYPE.FILE, root);
+      createNode('index.html', IFile.NODE_TYPE.FILE, root);
+      createNode('index.css', IFile.NODE_TYPE.FILE, root);
+    }
+  }, [createNode, root]);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem('root');
+
+    if (!stored) {
+      initDirectory();
+    }
+  }, [initDirectory]);
   return (
     <div className={style.explorer}>
       {/* Toolbar */}
@@ -39,7 +60,7 @@ const FileExplorer = () => {
       )}
       {/* File Structure */}
       <div className={style.tree_container}>
-        <Folder item={folderStructure} />
+        {root ? <Folder item={root} /> : <span>No folder</span>}
       </div>
     </div>
   );

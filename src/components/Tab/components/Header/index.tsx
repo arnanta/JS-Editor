@@ -1,15 +1,15 @@
 import { CloseIcon } from '@/assets/icons';
 import style from './style.module.css';
 import { useContext, useEffect, useState } from 'react';
-import NavigationContext from '@/contexts/Navigation/Context';
+import FileContext from '@/contexts/File/Context';
 import { IFile } from '@/types';
 
 type TabHeaderProps = {
-  file: IFile.FileNode;
+  file: IFile.Node;
 };
 
 const TabHeader = ({ file }: TabHeaderProps) => {
-  const { selectedFile, updateSelectedFile, closeFile } = useContext(NavigationContext);
+  const { selectedFile, updateSelectedFile, closeFile } = useContext(FileContext);
   const [selected, setSelected] = useState<boolean>(false);
 
   const handleClose = (e: React.MouseEvent) => {
