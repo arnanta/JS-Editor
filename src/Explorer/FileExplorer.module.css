@@ -13,6 +13,13 @@
   border-bottom: 1px solid #333;
   background-color: #252526;
 
+  & button {
+    outline: none;
+    background: none;
+    border: none;
+    vertical-align: middle;
+  }
+
   & svg {
     cursor: pointer;
     width: 20px;
