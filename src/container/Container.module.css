@@ -23,4 +23,10 @@
 
 .console_container {
   flex: 1;
+  align-self: flex-start;
+  width: 100%;
+}
+
+.hide_console {
+  display: none;
 }

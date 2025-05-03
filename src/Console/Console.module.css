@@ -1,0 +1,53 @@
+.multiConsole_terminal {
+  height: 100%;
+
+  .terminal_header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 1rem;
+    background-color: rgb(30, 30, 30);
+    border-top: 1px solid #cccccc4a;
+
+    .header_action {
+      display: flex;
+      justify-content: space-around;
+      width: 100px;
+      cursor: pointer;
+
+      span {
+        height: 24px;
+      }
+    }
+  }
+
+  .terminal {
+    display: flex;
+    height: 88%;
+
+    .terminal_editor {
+      height: 88%;
+      width: 90%;
+    }
+
+    .terminal_list {
+      height: 100%;
+      width: 10%;
+      border-left: 1px solid #cccccc61;
+    }
+
+    .terminal_li {
+      display: flex;
+      justify-content: space-between;
+      background: rgb(36, 36, 36);
+      padding: 0.5rem;
+      cursor: pointer;
+      &:not(:last-of-type) {
+        border-bottom: 1px solid #cccccc4a;
+      }
+    }
+
+    .terminal_ul {
+      list-style-type: none;
+    }
+  }
+}
