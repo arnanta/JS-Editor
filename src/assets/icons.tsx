@@ -122,14 +122,36 @@ export const Refresh = () => (
 );
 
 export const CollapseAll = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="20px"
-    viewBox="0 -960 960 960"
-    width="20px"
-    fill="#e3e3e3"
-  >
-    <path d="m296-80-56-56 240-240 240 240-56 56-184-184L296-80Zm184-504L240-824l56-56 184 184 184-184 56 56-240 240Z" />
+  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="none">
+    <rect
+      x="8"
+      y="4"
+      width="14"
+      height="14"
+      rx="2"
+      stroke="#e3e3e3"
+      stroke-width="2"
+      fill="none"
+    ></rect>
+    <rect
+      x="2"
+      y="10"
+      width="14"
+      height="14"
+      rx="2"
+      stroke="#e3e3e3"
+      stroke-width="2"
+      fill="#252526"
+    ></rect>
+    <line
+      x1="6"
+      y1="17"
+      x2="12"
+      y2="17"
+      stroke="#e3e3e3"
+      stroke-width="2"
+      stroke-linecap="round"
+    ></line>
   </svg>
 );
 

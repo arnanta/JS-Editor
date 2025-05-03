@@ -12,7 +12,9 @@ const FileContextWrapper: React.FC<ContextWrapperProps> = ({ children }) => {
 
   const { root, initDirectory, createNode, deleteNode } = useDirectory();
 
-  const [selectedFile, setSelectedFile] = useState<Nullable<IFile.Node>>(null);
+  const [selectedFile, setSelectedFile] = useState<Nullable<IFile.Node>>(
+    (Array.from(openedFiles.values())[0] as IFile.Node) ?? null,
+  );
 
   const updateOpenedFiles = (fileObject: IFile.Node) => {
     if (!openedFiles.has(fileObject.name)) {
