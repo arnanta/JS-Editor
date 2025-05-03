@@ -19,14 +19,19 @@
   }
 }
 
-/* .folderName {} */
-
 .children {
   margin-left: 16px;
   border-left: 1px dashed yellow;
-}
 
-/* .file {
-    padding: 4px 8px;
-    cursor: pointer;
-} */
+  & .create_new {
+    padding: 0 0.5rem;
+
+    & input {
+      outline: none;
+      padding: 4px;
+      color: #fff;
+      border: 1px solid #cccccc4a;
+      border-radius: 4px;
+    }
+  }
+}

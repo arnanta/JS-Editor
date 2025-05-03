@@ -91,21 +91,20 @@ const Folder = ({
         />
       )}
 
-      {isCreatingNew && selectedNodeData?.name === item.name && (
-        <div className="pl-4">
-          <input
-            autoFocus
-            type="text"
-            className="bg-gray-700 text-white px-1 py-0.5"
-            placeholder="new file/folder name"
-            onKeyDown={handleKeyDown}
-            onBlur={() => onCreate('')}
-          />
-        </div>
-      )}
-
       {expanded && item.type === IFile.NODE_TYPE.FOLDER && (
         <div className={style.children}>
+          {isCreatingNew && selectedNodeData?.name === item.name && (
+            <div className={style.create_new}>
+              <input
+                autoFocus
+                type="text"
+                className="bg-gray-700 text-white px-1 py-0.5"
+                placeholder="new file/folder name"
+                onKeyDown={handleKeyDown}
+                onBlur={() => onCreate('')}
+              />
+            </div>
+          )}
           {(item as IFile.FolderNode).getChildren().map((child, index) => (
             <Folder
               key={index}
