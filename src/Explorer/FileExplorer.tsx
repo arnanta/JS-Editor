@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import style from './FileExplorer.module.css';
-import { AddFile, Folder as FolderIcon, CollapseAll, ExplorerIcon } from '@/assets/icons';
+import { AddFile, Folder as FolderIcon, CollapseAll } from '@/assets/icons';
 import Folder from '@/Explorer/components/Folder/Folder';
 import FileContext from '@/contexts/File/Context';
 import { IFile } from '@/types';
@@ -232,7 +232,6 @@ const FileExplorer = () => {
   return (
     <div className={style.explorer}>
       <div className={style.toolbar}>
-        <ExplorerIcon />
         <button
           onClick={() => {
             setIsCreatingNew(true);

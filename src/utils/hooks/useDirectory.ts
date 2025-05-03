@@ -34,6 +34,7 @@ const useDirectory = () => {
         }
         parent.addChildren(newNode);
       }
+      sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
     }
   };
 
