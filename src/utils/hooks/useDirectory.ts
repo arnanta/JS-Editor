@@ -52,6 +52,7 @@ const useDirectory = () => {
         } else {
           try {
             targetNode.delete();
+            sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
           } catch (error: unknown) {
             console.log('Error');
             throw error;
@@ -60,6 +61,7 @@ const useDirectory = () => {
       }
     }
   };
+
   const renameNode = (currentName: string, newName: string, parent: IFile.FolderNode | null) => {
     if (!parent) {
       throw new Error("Can't rename root directory");

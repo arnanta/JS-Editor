@@ -19,6 +19,11 @@
   }
 }
 
+.folderIcon {
+  display: flex;
+  align-items: center;
+}
+
 .children {
   margin-left: 16px;
   border-left: 1px dashed yellow;
@@ -34,4 +39,23 @@
       border-radius: 4px;
     }
   }
+}
+
+.renameInput {
+  outline: none;
+  padding: 4px;
+  color: #fff;
+  border: 1px solid #cccccc4a;
+  border-radius: 4px;
+  margin-left: 8px;
+  width: 150px;
+}
+
+.createInput {
+  outline: none;
+  padding: 4px;
+  color: #fff;
+  border: 1px solid #cccccc4a;
+  border-radius: 4px;
+  width: 100%;
 }

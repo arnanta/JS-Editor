@@ -121,7 +121,7 @@ export const FolderContextMenuData: ContextMenuData[] = [
 ];
 
 export const getContextMenudata = (nodeType: string, isNodeCopied: boolean): ContextMenuData[] => {
-  const baseMenu = nodeType === 'file' ? [...FileContextMenuData] : [...FolderContextMenuData];
+  const baseMenu = nodeType === 'FILE' ? [...FileContextMenuData] : [...FolderContextMenuData];
 
   const pasteIndex = baseMenu.findIndex((item) => item.key === 'paste');
   if (pasteIndex !== -1) {

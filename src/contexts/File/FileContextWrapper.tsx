@@ -73,7 +73,7 @@ const FileContextWrapper: React.FC<ContextWrapperProps> = ({ children }) => {
           newKey: newName,
           value: file,
         });
-
+        updateSelectedFile(file);
         if (selectedFile && selectedFile.name === oldName) {
           updateSelectedFile(file);
         }
@@ -94,7 +94,7 @@ const FileContextWrapper: React.FC<ContextWrapperProps> = ({ children }) => {
         initDirectory: initDirectory,
         createNode,
         deleteNode,
-        renameNode: handleRenameNode, 
+        renameNode: handleRenameNode,
         updateOpenedFiles,
         updateSelectedFile,
         closeFile,
