@@ -60,6 +60,39 @@ const useDirectory = () => {
       }
     }
   };
+  const renameNode = (currentName: string, newName: string, parent: IFile.FolderNode | null) => {
+    if (!parent) {
+      throw new Error("Can't rename root directory");
+    }
+
+    if (!root) {
+      throw new Error("Can't rename in an empty directory");
+    }
+
+    if (currentName === newName) {
+      return;
+    }
+
+    const children = parent.getChildren();
+    const nameExists = children.some((child) => child.name === newName);
+    if (nameExists) {
+      throw new Error(`A node with name '${newName}' already exists`);
+    }
+
+    const targetNode = parent.search(currentName);
+    if (!targetNode) {
+      throw new Error('Node not found');
+    }
+
+    try {
+      targetNode.name = newName;
+      sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
+      return true;
+    } catch (error) {
+      console.error('Error renaming node:', error);
+      throw error;
+    }
+  };
   function generateUniqueName(length: number = 8): string {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
@@ -99,6 +132,7 @@ const useDirectory = () => {
     initDirectory: initDirectory,
     createNode: createNode,
     deleteNode: deleteNode,
+    renameNode: renameNode,
   };
 };
 

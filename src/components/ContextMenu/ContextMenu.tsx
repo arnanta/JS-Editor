@@ -40,7 +40,7 @@ const ContextMenu = ({
         <ContextMenuOptions
           key={option.key}
           option={option}
-          onClickOptions={onClickOptions}
+          onClickOptions={(option) => onClickOptions(option)}
           handleToolbarOptionClick={handleToolbarOptionClick}
           isSelected={selectedKey === option.key}
         />

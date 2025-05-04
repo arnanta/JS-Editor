@@ -123,6 +123,26 @@ const FileExplorer = () => {
     }
   };
 
+  const handlePasteNode = (targetNode: IFile.Node) => {
+    if (!copiedNode || !targetNode || targetNode.type !== IFile.NODE_TYPE.FOLDER) return;
+
+    try {
+      createNode(
+        copiedNode.name,
+        copiedNode.type,
+        targetNode as IFile.FolderNode,
+        copiedNode.content,
+      );
+      if (isCutOperation) {
+        deleteNode(copiedNode.name, copiedNode.parent!);
+      }
+      setCopiedNode(null);
+      setIsCutOperation(false);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const handleRenameAction = (newName: string) => {
     if (renamingNode && newName && newName !== renamingNode.name && renamingNode.getParent()) {
       try {
@@ -203,6 +223,14 @@ const FileExplorer = () => {
     if (isContextMenuVisible) {
       setIsContextMenuVisible(false);
     }
+  };
+
+  const handleContextMenu = (e: React.MouseEvent, node: IFile.Node) => {
+    e.preventDefault();
+    setContextMenuNode(node);
+    updateSelectedFile(node);
+    selectedNodeRef.current = e.currentTarget as HTMLElement;
+    setIsContextMenuVisible(true);
   };
 
   useEffect(() => {
