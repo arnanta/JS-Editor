@@ -42,22 +42,41 @@ const Folder = ({
 
   if (item.type === IFile.NODE_TYPE.FILE) {
     return (
-      <div
-        className={`${style.file} ${style.node}`}
-        onContextMenu={(e) => onContextMenu(e, item)}
-        onClick={() => {
-          onNodeSelect(item);
-          updateOpenedFiles(item);
-        }}
-      >
-        {item.name}
+      <div className={style.node} onContextMenu={(e) => onContextMenu(e, item)}>
+        {isRenaming && renamingNode?.name === item.name ? (
+          <input
+            autoFocus
+            type="text"
+            defaultValue={item.name}
+            className={style.renameInput}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.currentTarget.value) {
+                handleRename(e.currentTarget.value);
+              }
+            }}
+            onBlur={(e) => handleRename(e.currentTarget.value)}
+          />
+        ) : (
+          <div
+            onClick={() => {
+              onNodeSelect(item);
+              updateOpenedFiles(item);
+            }}
+          >
+            {item.name}
+          </div>
+        )}
       </div>
     );
   }
 
-  const handleFolderClick = () => {
-    setExpanded((prev) => !prev);
-    onNodeSelect(item);
+  const handleFolderClick = (e: React.MouseEvent) => {
+    // Only toggle expand/collapse on left click
+    if (e.button === 0) {
+      // 0 is left mouse button
+      setExpanded((prev) => !prev);
+      onNodeSelect(item);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -66,42 +85,52 @@ const Folder = ({
     }
   };
 
+  const handleFolderContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onContextMenu(e, item);
+  };
+
   return (
     <div className={style.folder}>
       <div
-        className={`${style.folderName} ${style.node}`}
+        className={style.node}
         onClick={handleFolderClick}
-        onContextMenu={(e) => onContextMenu(e, item)}
+        onContextMenu={handleFolderContextMenu}
       >
-        {expanded ? <FolderOpen /> : <FolderIcon />} {item.name}
+        <span className={style.folderIcon}>{expanded ? <FolderOpen /> : <FolderIcon />}</span>
+        {isRenaming && renamingNode?.name === item.name ? (
+          <input
+            autoFocus
+            type="text"
+            defaultValue={item.name}
+            className={style.renameInput}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.currentTarget.value) {
+                handleRename(e.currentTarget.value);
+              }
+            }}
+            onBlur={(e) => handleRename(e.currentTarget.value)}
+          />
+        ) : (
+          <span>{item.name}</span>
+        )}
       </div>
 
-      {isRenaming && renamingNode?.name === item.name && (
-        <input
-          autoFocus
-          type="text"
-          className="bg-gray-700 text-white px-1 py-0.5"
-          placeholder="Rename file/folder"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.currentTarget.value) {
-              handleRename(e.currentTarget.value);
-            }
-          }}
-          onBlur={(e) => handleRename(e.currentTarget.value)}
-        />
-      )}
-
-      {expanded && item.type === IFile.NODE_TYPE.FOLDER && (
+      {expanded && (
         <div className={style.children}>
           {isCreatingNew && selectedNodeData?.name === item.name && (
             <div className={style.create_new}>
               <input
                 autoFocus
                 type="text"
-                className="bg-gray-700 text-white px-1 py-0.5"
-                placeholder="new file/folder name"
+                className={style.createInput}
+                placeholder="New name"
                 onKeyDown={handleKeyDown}
-                onBlur={() => onCreate('')}
+                onBlur={(e) => {
+                  if (e.currentTarget.value) {
+                    onCreate(e.currentTarget.value);
+                  }
+                }}
               />
             </div>
           )}
