@@ -1,11 +1,7 @@
 const isCDCommand = (command: string): boolean => {
   const cdRegex = RegExp(/^cd+/);
   const splitCommand = command.split(' ');
-  if (splitCommand.length === 2) {
-    if (cdRegex.test(splitCommand[0].trim())) {
-      return true;
-    } else return false;
-  } else return false;
+  return splitCommand.length === 2 ? cdRegex.test(splitCommand[0].trim()) : false;
 };
 const getCDNewPath = (value: string, path: string) => {
   const splitValue = value.split(' ');
@@ -20,7 +16,6 @@ const getCDNewPath = (value: string, path: string) => {
       }
     });
   }
-  console.log('🚀 ~ splitFolder.forEach ~ item:', splitPath);
   return splitPath.join('\\');
 };
 export { isCDCommand, getCDNewPath };

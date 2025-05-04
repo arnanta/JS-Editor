@@ -22,10 +22,10 @@
 
   .terminal {
     display: flex;
-    height: 88%;
+    height: 85%;
 
     .terminal_editor {
-      height: 88%;
+      height: 100%;
       width: 90%;
     }
 
@@ -33,21 +33,6 @@
       height: 100%;
       width: 10%;
       border-left: 1px solid #cccccc61;
-    }
-
-    .terminal_li {
-      display: flex;
-      justify-content: space-between;
-      background: rgb(36, 36, 36);
-      padding: 0.5rem;
-      cursor: pointer;
-      &:not(:last-of-type) {
-        border-bottom: 1px solid #cccccc4a;
-      }
-    }
-
-    .terminal_ul {
-      list-style-type: none;
     }
   }
 }

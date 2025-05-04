@@ -1,0 +1,14 @@
+.terminal_li {
+  display: flex;
+  justify-content: space-between;
+  background: rgb(36, 36, 36);
+  padding: 0.5rem;
+  cursor: pointer;
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #cccccc4a;
+  }
+}
+
+.terminal_ul {
+  list-style-type: none;
+}

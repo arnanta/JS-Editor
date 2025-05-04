@@ -22,6 +22,10 @@
   .terminal_input {
     display: flex;
     justify-content: flex-start;
+    input {
+      width: 0.25rem;
+      opacity: 0;
+    }
   }
 }
 @keyframes blink {
