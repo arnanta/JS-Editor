@@ -17,8 +17,8 @@ const ContextMenuOptions = ({
     if (option.subMenu && option.subMenu.length) {
       setShowNestedContextMenu(true);
     } else {
-      onClickOptions();
-      option.onClick && option.onClick();
+      onClickOptions(option);
+      option.onClick && option.onClick(option);
     }
     handleToolbarOptionClick(option, targetElement.current);
   };
@@ -49,7 +49,7 @@ const ContextMenuOptions = ({
       )}
       {option.subMenu && targetElement && showNestedContextMenu && (
         <ContextMenu
-          onClickOptions={onClickOptions}
+          onClickOptions={(option) => onClickOptions(option)}
           data={option.subMenu}
           htmlRef={targetElement.current!}
           isNested={true}

@@ -11,6 +11,7 @@ export type FileContextType = {
   updateOpenedFiles: (fileObject: IFile.Node) => void;
   updateSelectedFile: (file: IFile.Node | null) => void;
   closeFile: (file: IFile.Node) => void;
+  renameNode: (oldName: string, newName: string, parent: IFile.FolderNode | null) => boolean;
 };
 
 const initialState: FileContextType = {
@@ -23,6 +24,7 @@ const initialState: FileContextType = {
   updateOpenedFiles: () => {},
   updateSelectedFile: () => {},
   closeFile: () => {},
+  renameNode: () => false,
 };
 
 const FileContext = createContext(initialState);
