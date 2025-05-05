@@ -34,6 +34,7 @@ export class Node {
     this.path = `${parent ? parent.path : '/'}${name}`;
     this.content = content;
     this.parent = parent;
+    this.content = content;
   }
 
   public getParent(): FolderNode | null {
@@ -42,6 +43,14 @@ export class Node {
 
   public setParent(parentNode: FolderNode | null) {
     this.parent = parentNode;
+  }
+
+  public getContent(): string | null {
+    return this.content;
+  }
+
+  public setContent(content: string | null) {
+    this.content = content;
   }
 
   public delete() {

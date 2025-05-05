@@ -71,9 +71,7 @@ const Folder = ({
   }
 
   const handleFolderClick = (e: React.MouseEvent) => {
-    // Only toggle expand/collapse on left click
     if (e.button === 0) {
-      // 0 is left mouse button
       setExpanded((prev) => !prev);
       onNodeSelect(item);
     }

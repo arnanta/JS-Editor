@@ -3,7 +3,7 @@ export type ContextMenuData = {
   key: string;
   disabled?: boolean;
   subMenu?: ContextMenuData[];
-  onClick?: (option: { key: string }) => void; // Match your component's expected type
+  onClick?: (option: { key: string }) => void;
 };
 
 export enum ContextActionType {
@@ -16,54 +16,27 @@ export enum ContextActionType {
   NewFolder = 'new_folder',
 }
 
-// const handleDeletion = (node: IFile.Node) => {
-//   if (node) {
-//     deleteNode(node);
-//   }
-// };
-export const onClickContextMenuOptions = (option) => {
-  switch (option.key) {
-    case ContextActionType.Delete:
-      console.log(option);
-  }
-};
-
 export const FileContextMenuData: ContextMenuData[] = [
   {
     title: 'Rename',
     key: 'rename',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Delete',
     key: 'delete',
-    // onClick: (option) => {
-    //   onClickContextMenuOptions(option);
-    // },
   },
   {
     title: 'Cut',
     key: 'cut',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Copy',
     key: 'copy',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Paste',
     key: 'paste',
     disabled: false,
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
 ];
 
@@ -71,52 +44,31 @@ export const FolderContextMenuData: ContextMenuData[] = [
   {
     title: 'Rename',
     key: 'rename',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Delete',
     key: 'delete',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Cut',
     key: 'cut',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Copy',
     key: 'copy',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'Paste',
     key: 'paste',
     disabled: false,
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'New File',
     key: 'new_file',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
   {
     title: 'New Folder',
     key: 'new_folder',
-    onClick: (option) => {
-      onClickContextMenuOptions(option);
-    },
   },
 ];
 
