@@ -5,9 +5,10 @@ import { FolderOpen, Folder as FolderIcon } from '@/assets/icons';
 import FileContext from '@/contexts/File/Context';
 
 interface FolderProps {
-  item: IFile.Node | IFile.FolderNode;
+  item: IFile.Node;
   isCreatingNew: boolean;
   selectedNodeData: Nullable<IFile.Node>;
+  selectedFolderData: Nullable<IFile.FolderNode>;
   isRenaming: boolean;
   renamingNode: Nullable<IFile.Node>;
   onNodeSelect: (node: IFile.Node) => void;
@@ -16,12 +17,17 @@ interface FolderProps {
   handleRename: (newName: string) => void;
   onCollapseAll: () => void;
   isCollapsed?: boolean;
+  expandedFolders: Set<string>;
+  setExpandedFolders: (folders: Set<string>) => void;
+  copiedNode?: Nullable<IFile.Node>;
+  isCutOperation?: boolean;
 }
 
 const Folder = ({
   item,
   isCreatingNew,
   selectedNodeData,
+  selectedFolderData,
   isRenaming,
   renamingNode,
   onNodeSelect,
@@ -30,9 +36,13 @@ const Folder = ({
   handleRename,
   onCollapseAll,
   isCollapsed,
+  expandedFolders,
+  setExpandedFolders,
+  copiedNode,
+  isCutOperation,
 }: FolderProps) => {
   const { updateOpenedFiles } = useContext(FileContext);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(expandedFolders.has(item.name));
 
   useEffect(() => {
     if (isCollapsed !== undefined) {
@@ -40,9 +50,41 @@ const Folder = ({
     }
   }, [isCollapsed]);
 
+  useEffect(() => {
+    if (expandedFolders.has(item.name)) {
+      setExpanded(true);
+    }
+  }, [expandedFolders, item.name]);
+
+  const toggleExpand = () => {
+    const newExpanded = !expanded;
+    setExpanded(newExpanded);
+    const newSet = new Set(expandedFolders);
+    if (newExpanded) {
+      newSet.add(item.name);
+    } else {
+      newSet.delete(item.name);
+    }
+    setExpandedFolders(newSet);
+  };
+
+  const handleRightClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onContextMenu(e, item);
+  };
+
+  const isNodeCut = isCutOperation && copiedNode?.name === item.name;
+
+  // File node
   if (item.type === IFile.NODE_TYPE.FILE) {
     return (
-      <div className={style.node} onContextMenu={(e) => onContextMenu(e, item)}>
+      <div
+        className={`${style.node} ${selectedNodeData?.name === item.name ? style.selected : ''} ${
+          isNodeCut ? style.cut : ''
+        }`}
+        onContextMenu={handleRightClick}
+      >
         {isRenaming && renamingNode?.name === item.name ? (
           <input
             autoFocus
@@ -70,32 +112,15 @@ const Folder = ({
     );
   }
 
-  const handleFolderClick = (e: React.MouseEvent) => {
-    if (e.button === 0) {
-      setExpanded((prev) => !prev);
-      onNodeSelect(item);
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && e.currentTarget.value && !isRenaming) {
-      onCreate(e.currentTarget.value);
-    }
-  };
-
-  const handleFolderContextMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onContextMenu(e, item);
-  };
-
+  // Folder node
   return (
-    <div className={style.folder}>
+    <div className={`${style.folder} ${isNodeCut ? style.cut : ''}`}>
       <div
-        className={style.node}
-        onClick={handleFolderClick}
-        onContextMenu={handleFolderContextMenu}
+        className={`${style.node} ${selectedFolderData?.name === item.name ? style.selected : ''}`}
+        onClick={toggleExpand}
+        onContextMenu={handleRightClick}
       >
-        <span className={style.folderIcon}>{expanded ? <FolderOpen /> : <FolderIcon />}</span>
+        {expanded ? <FolderOpen /> : <FolderIcon />}
         {isRenaming && renamingNode?.name === item.name ? (
           <input
             autoFocus
@@ -114,40 +139,50 @@ const Folder = ({
         )}
       </div>
 
-      {expanded && (
+      {expanded && 'getChildren' in item && item.getChildren().length > 0 && (
         <div className={style.children}>
-          {isCreatingNew && selectedNodeData?.name === item.name && (
-            <div className={style.create_new}>
-              <input
-                autoFocus
-                type="text"
-                className={style.createInput}
-                placeholder="New name"
-                onKeyDown={handleKeyDown}
-                onBlur={(e) => {
-                  if (e.currentTarget.value) {
-                    onCreate(e.currentTarget.value);
-                  }
-                }}
-              />
-            </div>
-          )}
-          {(item as IFile.FolderNode).getChildren().map((child, index) => (
+          {item.getChildren().map((child) => (
             <Folder
-              key={index}
+              key={child.name}
               item={child}
-              onNodeSelect={onNodeSelect}
               isCreatingNew={isCreatingNew}
               selectedNodeData={selectedNodeData}
+              selectedFolderData={selectedFolderData}
+              isRenaming={isRenaming}
+              renamingNode={renamingNode}
+              onNodeSelect={onNodeSelect}
               onCreate={onCreate}
               onContextMenu={onContextMenu}
-              isRenaming={isRenaming}
               handleRename={handleRename}
-              renamingNode={renamingNode}
               onCollapseAll={onCollapseAll}
               isCollapsed={isCollapsed}
+              expandedFolders={expandedFolders}
+              setExpandedFolders={setExpandedFolders}
+              copiedNode={copiedNode}
+              isCutOperation={isCutOperation}
             />
           ))}
+        </div>
+      )}
+
+      {expanded && isCreatingNew && selectedFolderData?.name === item.name && !isRenaming && (
+        <div className={style.node}>
+          <input
+            autoFocus
+            type="text"
+            className={style.renameInput}
+            placeholder="Enter name"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.currentTarget.value) {
+                onCreate(e.currentTarget.value);
+              }
+            }}
+            onBlur={(e) => {
+              if (e.currentTarget.value) {
+                onCreate(e.currentTarget.value);
+              }
+            }}
+          />
         </div>
       )}
     </div>

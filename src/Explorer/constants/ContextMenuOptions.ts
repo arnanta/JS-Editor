@@ -16,72 +16,58 @@ export enum ContextActionType {
   NewFolder = 'new_folder',
 }
 
-export const FileContextMenuData: ContextMenuData[] = [
+const baseMenuItems: ContextMenuData[] = [
   {
     title: 'Rename',
-    key: 'rename',
+    key: ContextActionType.Rename,
   },
   {
     title: 'Delete',
-    key: 'delete',
+    key: ContextActionType.Delete,
   },
   {
     title: 'Cut',
-    key: 'cut',
+    key: ContextActionType.Cut,
   },
   {
     title: 'Copy',
-    key: 'copy',
+    key: ContextActionType.Copy,
   },
   {
     title: 'Paste',
-    key: 'paste',
-    disabled: false,
+    key: ContextActionType.Paste,
+    disabled: true,
   },
 ];
 
+export const FileContextMenuData: ContextMenuData[] = [...baseMenuItems];
+
 export const FolderContextMenuData: ContextMenuData[] = [
-  {
-    title: 'Rename',
-    key: 'rename',
-  },
-  {
-    title: 'Delete',
-    key: 'delete',
-  },
-  {
-    title: 'Cut',
-    key: 'cut',
-  },
-  {
-    title: 'Copy',
-    key: 'copy',
-  },
-  {
-    title: 'Paste',
-    key: 'paste',
-    disabled: false,
-  },
+  ...baseMenuItems,
   {
     title: 'New File',
-    key: 'new_file',
+    key: ContextActionType.NewFile,
   },
   {
     title: 'New Folder',
-    key: 'new_folder',
+    key: ContextActionType.NewFolder,
   },
 ];
 
-export const getContextMenudata = (nodeType: string, isNodeCopied: boolean): ContextMenuData[] => {
+export const getContextMenudata = (
+  nodeType: string,
+  hasCopiedNode: boolean,
+  canPaste: boolean,
+): ContextMenuData[] => {
   const baseMenu = nodeType === 'FILE' ? [...FileContextMenuData] : [...FolderContextMenuData];
 
-  const pasteIndex = baseMenu.findIndex((item) => item.key === 'paste');
-  if (pasteIndex !== -1) {
-    baseMenu[pasteIndex] = {
-      ...baseMenu[pasteIndex],
-      disabled: !isNodeCopied,
-    };
-  }
-
-  return baseMenu;
+  return baseMenu.map((item) => {
+    if (item.key === ContextActionType.Paste) {
+      return {
+        ...item,
+        disabled: !(hasCopiedNode && canPaste),
+      };
+    }
+    return item;
+  });
 };
