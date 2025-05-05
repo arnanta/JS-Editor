@@ -125,16 +125,15 @@ const FileExplorer = () => {
 
   const handlePasteNode = (targetNode: IFile.Node) => {
     if (!copiedNode || !targetNode || targetNode.type !== IFile.NODE_TYPE.FOLDER) return;
-
     try {
       createNode(
         copiedNode.name,
         copiedNode.type,
         targetNode as IFile.FolderNode,
-        copiedNode.content,
+        copiedNode.getContent(),
       );
       if (isCutOperation) {
-        deleteNode(copiedNode.name, copiedNode.parent!);
+        deleteNode(copiedNode.name, copiedNode.getParent()!);
       }
       setCopiedNode(null);
       setIsCutOperation(false);
