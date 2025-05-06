@@ -1,14 +1,18 @@
-.terminal_li {
+.terminal_list {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background: rgb(36, 36, 36);
   padding: 0.5rem;
   cursor: pointer;
+  & span {
+    display: flex;
+  }
   &:not(:last-of-type) {
     border-bottom: 1px solid #cccccc4a;
   }
-}
-
-.terminal_ul {
-  list-style-type: none;
+  &.selected {
+    background-color: rgb(100, 100, 111);
+    box-shadow: rgba(100, 100, 111) 0px 0px 5px 0px;
+  }
 }

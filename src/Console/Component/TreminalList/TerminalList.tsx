@@ -1,39 +1,17 @@
-import React from 'react';
-import style from './TerminalList.module.css';
-import { DeleteIcon } from '@/assets/icons';
-import { TerminalType } from '@/types';
+import React, { useContext } from 'react';
+import TerminalContext from '@/contexts/Terminal/context';
+import TerminalListItems from '../TerminalListItems/TerminalListItems';
 
-type TerminalListProps = {
-  terminalData: TerminalType.TerminalValue[];
-};
-
-const TerminalList = ({ terminalData }: TerminalListProps) => {
-  const handleTerminalActionClick = (event: React.MouseEvent, action: string, terminalKey = '') => {
-    event.stopPropagation();
-    event.preventDefault();
-    console.log('🚀 ~ handleTerminalActionClick ~ action, terminalKey:', action, terminalKey);
-  };
-
-  const handleTerminalListClick = (key: string) => {
-    console.log('🚀 ~ handleTerminalListClick ~ key:', key);
-  };
+const TerminalList = () => {
+  const { terminalData } = useContext(TerminalContext);
 
   return (
     <React.Fragment>
-      <ul className={style.terminal_ul}>
-        {terminalData.map((item: TerminalType.TerminalValue) => (
-          <li
-            key={item.key}
-            className={style.terminal_li}
-            onClick={() => handleTerminalListClick(item.key)}
-          >
-            {item.value}
-            <span onClick={(event) => handleTerminalActionClick(event, 'delete', item.key)}>
-              <DeleteIcon />
-            </span>
-          </li>
+      <div>
+        {Array.from(terminalData.entries()).map(([key, value]) => (
+          <TerminalListItems key={key} terminalKey={key} terminalData={value} />
         ))}
-      </ul>
+      </div>
     </React.Fragment>
   );
 };

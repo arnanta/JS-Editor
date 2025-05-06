@@ -1,27 +1,27 @@
-import useTerminal from '@/utils/hooks/useTerminal';
 import style from './Terminal.module.css';
-import { useRef } from 'react';
-import { TerminalType } from '@/types';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { TerminalData } from '@/types';
+import TerminalContext from '@/contexts/Terminal/context';
 
-type TerminalProps = {
-  path: string;
-};
+const Terminal = () => {
+  const [selectedTerminalData, setSelectedTerminalData] = useState<TerminalData>();
+  const terminalRef = useRef<HTMLDivElement | null>(null);
+  const { handleCurrentInput, handleEnterClick, setTerminalRef, getSelectedTerminalData } =
+    useContext(TerminalContext);
 
-const Terminal = ({ path }: TerminalProps) => {
-  const terminalInputRef = useRef<HTMLInputElement | null>(null);
-  const terminalRef = useRef<HTMLInputElement | null>(null);
-
-  const { currentInput, CurrentPath, handleChange, handleKeydown, terminalValues } = useTerminal(
-    path,
-    terminalInputRef.current,
-    terminalRef.current,
-  );
+  useEffect(() => {
+    const tempSelectedTerminal = getSelectedTerminalData();
+    if (tempSelectedTerminal !== undefined) {
+      setSelectedTerminalData(tempSelectedTerminal);
+    }
+    setTerminalRef(terminalRef.current);
+  }, [setTerminalRef, getSelectedTerminalData]);
 
   const getTerminalPrompt = () => {
-    return terminalValues.map((item: TerminalType.TerminalValue, index: number) => (
+    return selectedTerminalData?.terminalValues.map((item, index) => (
       <div key={index} className={style.terminal_value}>
         <span>{'$ '}</span>
-        <span>{item.key}</span>
+        <span>{item.path}</span>
         <span>{'>'}</span>
         <span>{item.value}</span>
       </div>
@@ -33,16 +33,19 @@ const Terminal = ({ path }: TerminalProps) => {
       {getTerminalPrompt()}
       <div className={style.terminal_input}>
         <span>{'$ '}</span>
-        <span>{CurrentPath}</span>
+        <span>{selectedTerminalData ? selectedTerminalData.CurrentPath : ''}</span>
         <span>{'>'}</span>
-        <span>{currentInput}</span>
+        <span>{selectedTerminalData ? selectedTerminalData.CurrentInput : ''}</span>
         <span className={style.blinking_cursor}>|</span>
         <input
-          ref={terminalInputRef}
           type="text"
-          value={currentInput}
-          onChange={handleChange}
-          onKeyDown={handleKeydown}
+          value={
+            selectedTerminalData && selectedTerminalData.CurrentInput.length
+              ? selectedTerminalData.CurrentInput
+              : ''
+          }
+          onChange={(event) => handleCurrentInput(event.target.value)}
+          onKeyDown={handleEnterClick}
         />
       </div>
     </div>
