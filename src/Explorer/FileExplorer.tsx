@@ -18,9 +18,9 @@ const FileExplorer = () => {
     if (root) {
       rootNode.current = root;
       sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
-      createNode('index.js', IFile.NODE_TYPE.FILE, root);
-      createNode('index.html', IFile.NODE_TYPE.FILE, root);
-      createNode('index.css', IFile.NODE_TYPE.FILE, root);
+      createNode('index.js', IFile.NODE_TYPE.FILE, root, 'let data = 6');
+      createNode('index.html', IFile.NODE_TYPE.FILE, root, '<html></html>');
+      createNode('index.css', IFile.NODE_TYPE.FILE, root, 'html {background-color: #fff}');
     }
   }, [createNode, root]);
 

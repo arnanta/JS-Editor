@@ -20,12 +20,19 @@ export class Node {
   public name: string;
   public type: NODE_TYPE;
   public path: string;
+  public content: Nullable<string>;
   private parent: FolderNode | null;
 
-  constructor(name: string, type: NODE_TYPE, parent: FolderNode | null) {
+  constructor(
+    name: string,
+    type: NODE_TYPE,
+    parent: FolderNode | null,
+    content: Nullable<string> = '',
+  ) {
     this.name = name;
     this.type = type;
     this.path = `${parent ? parent.path : '/'}${name}`;
+    this.content = content;
     this.parent = parent;
   }
 
@@ -50,12 +57,13 @@ export class Node {
     return {
       name: this.name,
       type: this.type,
-      parent: null, // avoid circular reference
+      parent: null,
+      content: this.content, // avoid circular reference
     };
   }
 
   static fromJSON(obj: any): Node {
-    return new Node(obj.name, obj.type, null);
+    return new Node(obj.name, obj.type, null, obj.content);
   }
 }
 
@@ -63,7 +71,7 @@ export class FolderNode extends Node {
   private children: Array<Node | FolderNode>;
 
   constructor(name: string, type: NODE_TYPE, parent: FolderNode | null) {
-    super(name, type, parent);
+    super(name, type, parent, null);
     this.children = [];
   }
 
