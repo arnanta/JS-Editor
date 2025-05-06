@@ -128,8 +128,8 @@ const FileExplorer = () => {
 
     try {
       renameNode(renamingNode.name, trimmedNewName, renamingNode.getParent());
-    } catch (error) {
-      alert(error);
+    } catch (error: any) {
+      alert(error.message);
     }
 
     setIsRenaming(false);
@@ -191,11 +191,6 @@ const FileExplorer = () => {
   const handleContextMenu = (e: React.MouseEvent, node: IFile.Node) => {
     e.preventDefault();
     setContextMenuNode(node);
-    if (node.type === IFile.NODE_TYPE.FILE) {
-      updateSelectedFile(node);
-    } else {
-      setSelectedFolder(node as IFile.FolderNode);
-    }
     selectedNodeRef.current = e.currentTarget as HTMLElement;
     setIsContextMenuVisible(true);
   };
@@ -212,13 +207,13 @@ const FileExplorer = () => {
       const existingNames = root.getChildren().map((child) => child.name.toLowerCase());
 
       if (!existingNames.includes('index.js')) {
-        createNode('index.js', IFile.NODE_TYPE.FILE, root, 'let data = 8');
+        createNode('index.js', IFile.NODE_TYPE.FILE, root, 'let data = 6');
       }
       if (!existingNames.includes('index.html')) {
-        createNode('index.html', IFile.NODE_TYPE.FILE, root);
+        createNode('index.html', IFile.NODE_TYPE.FILE, root, '<html></html>');
       }
       if (!existingNames.includes('index.css')) {
-        createNode('index.css', IFile.NODE_TYPE.FILE, root);
+        createNode('index.css', IFile.NODE_TYPE.FILE, root, 'html {background-color: #fff}');
       }
 
       setSelectedFolder(root);

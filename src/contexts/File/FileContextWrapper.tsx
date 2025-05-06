@@ -79,7 +79,9 @@ const FileContextWrapper: React.FC<ContextWrapperProps> = ({ children }) => {
       }
       return true;
     } catch (error) {
-      console.error('Error renaming file:', error);
+      throw new Error(
+        `A ${oldName.toLowerCase()} named '${oldName}' already exists in this folder`,
+      );
       return false;
     }
   };
