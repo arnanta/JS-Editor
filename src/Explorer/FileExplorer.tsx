@@ -6,7 +6,7 @@ import FileContext from '@/contexts/File/Context';
 import { IFile } from '@/types';
 import { ContextMenu } from '@/components';
 import { getContextMenudata, ContextActionType } from './constants/ContextMenuOptions';
-
+import { hasValidExtension } from './helper/helper';
 const FileExplorer = () => {
   type NodeType = 'file' | 'folder';
   const {
@@ -20,7 +20,6 @@ const FileExplorer = () => {
     closeFile,
     openedFiles,
   } = useContext(FileContext);
-
   const rootNode = useRef<Nullable<IFile.FolderNode>>(null);
   const [isCreatingNew, setIsCreatingNew] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
@@ -63,25 +62,12 @@ const FileExplorer = () => {
     }
 
     const isFile = type === 'file';
-    const allowedExtensions = [
-      '.js',
-      '.ts',
-      '.json',
-      '.txt',
-      '.md',
-      '.html',
-      '.css',
-      'scss',
-      'tsx',
-      'jsx',
-    ];
 
-    if (isFile) {
-      const hasValidExtension = allowedExtensions.some((ext) => trimmedName.endsWith(ext));
-      if (!hasValidExtension) {
-        alert(`File must have a valid extension: ${allowedExtensions.join(', ')}`);
-        return;
-      }
+    if (isFile && !hasValidExtension(trimmedName)) {
+      alert(
+        'File must have a valid extension: .js, .ts, .json, .txt, .md, .html, .css, scss, tsx, jsx',
+      );
+      return;
     }
 
     try {
@@ -124,13 +110,28 @@ const FileExplorer = () => {
   };
 
   const handleRenameAction = (newName: string) => {
-    if (renamingNode && newName && newName !== renamingNode.name && renamingNode.getParent()) {
-      try {
-        renameNode(renamingNode.name, newName, renamingNode.getParent());
-      } catch (error) {
-        alert(error);
-      }
+    if (!renamingNode || !newName || newName === renamingNode.name || !renamingNode.getParent()) {
+      setIsRenaming(false);
+      setRenamingNode(null);
+      return;
     }
+
+    const trimmedNewName = newName.trim();
+    const isFile = renamingNode.type === IFile.NODE_TYPE.FILE;
+
+    if (isFile && !hasValidExtension(trimmedNewName)) {
+      alert(
+        'Renamed file must have a valid extension: .js, .ts, .json, .txt, .md, .html, .css, scss, tsx, jsx',
+      );
+      return;
+    }
+
+    try {
+      renameNode(renamingNode.name, trimmedNewName, renamingNode.getParent());
+    } catch (error) {
+      alert(error);
+    }
+
     setIsRenaming(false);
     setRenamingNode(null);
   };
@@ -208,15 +209,23 @@ const FileExplorer = () => {
   useEffect(() => {
     if (root) {
       rootNode.current = root;
-      sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
-      createNode('index.js', IFile.NODE_TYPE.FILE, root, 'let data = 8');
-      createNode('index.html', IFile.NODE_TYPE.FILE, root);
-      createNode('index.css', IFile.NODE_TYPE.FILE, root);
+      const existingNames = root.getChildren().map((child) => child.name.toLowerCase());
+
+      if (!existingNames.includes('index.js')) {
+        createNode('index.js', IFile.NODE_TYPE.FILE, root, 'let data = 8');
+      }
+      if (!existingNames.includes('index.html')) {
+        createNode('index.html', IFile.NODE_TYPE.FILE, root);
+      }
+      if (!existingNames.includes('index.css')) {
+        createNode('index.css', IFile.NODE_TYPE.FILE, root);
+      }
+
       setSelectedFolder(root);
+      sessionStorage.setItem('root', JSON.stringify(root.toJSON()));
       expandFolder(root.name);
     }
-  }, []);
-
+  }, [root]);
   useEffect(() => {
     const stored = sessionStorage.getItem('root');
     if (!stored) {

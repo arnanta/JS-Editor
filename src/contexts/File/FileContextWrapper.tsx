@@ -69,8 +69,7 @@ const FileContextWrapper: React.FC<ContextWrapperProps> = ({ children }) => {
         file.name = newName;
         setOpenedFile({
           type: ACTION_TYPES.UPDATE,
-          key: oldName,
-          newKey: newName,
+          key: newName,
           value: file,
         });
         updateSelectedFile(file);

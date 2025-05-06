@@ -10,7 +10,6 @@ const useDirectory = () => {
     parent: IFile.FolderNode | null = root,
     content: Nullable<string>,
   ) => {
-    console.log('🚀 ~ useDirectory ~ parent:', parent);
     if (type === IFile.NODE_TYPE.FILE && !parent) {
       throw new Error("Can't add file as a root");
     }
