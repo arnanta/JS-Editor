@@ -81,7 +81,6 @@ const Folder = ({
 
     const handleClickOutside = (e: MouseEvent) => {
       if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        // Clicked outside the input
         onCreate('');
       }
     };
@@ -155,9 +154,9 @@ const Folder = ({
         )}
       </div>
 
-      {expanded && 'getChildren' in item && item.getChildren().length > 0 && (
+      {expanded && 'getChildren' in item && (item as IFile.FolderNode).getChildren().length > 0 && (
         <div className={style.children}>
-          {item.getChildren().map((child) => (
+          {(item as IFile.FolderNode).getChildren().map((child) => (
             <Folder
               key={child.name}
               item={child}
