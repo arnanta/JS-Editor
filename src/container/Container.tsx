@@ -4,6 +4,7 @@ import { Fragment, useContext } from 'react';
 import FileExplorer from '@/Explorer/FileExplorer';
 import style from './Container.module.css';
 import Editor from '@/Editor';
+import { Console } from '@/Console';
 
 const Container = () => {
   const { showConsole, showSidebar } = useContext(ViewContext);
@@ -21,7 +22,9 @@ const Container = () => {
           <Editor />
         </div>
       </div>
-      {showConsole ? <div className={style.console_container}>Console</div> : null}
+      <div className={`${style.console_container} ${!showConsole ? style.hide_console : null}`}>
+        <Console />
+      </div>
     </Fragment>
   );
 };

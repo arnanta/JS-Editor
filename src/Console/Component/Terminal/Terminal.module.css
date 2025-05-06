@@ -1,0 +1,35 @@
+.blinking_cursor {
+  font-weight: bold;
+  color: black;
+  animation: blink 1s step-start infinite;
+}
+.terminal_container {
+  flex: 1;
+  display: flex;
+  align-self: flex-start;
+  padding: 1rem;
+  height: 100%;
+  cursor: text;
+  display: block;
+  align-content: stretch;
+  span {
+    padding-right: 0.5rem;
+  }
+  .terminal_value {
+    display: flex;
+    justify-content: flex-start;
+  }
+  .terminal_input {
+    display: flex;
+    justify-content: flex-start;
+    input {
+      width: 0.25rem;
+      opacity: 0;
+    }
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
