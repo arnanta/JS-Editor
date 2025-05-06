@@ -215,7 +215,7 @@ const FileExplorer = () => {
       setSelectedFolder(root);
       expandFolder(root.name);
     }
-  }, [root]);
+  }, []);
 
   useEffect(() => {
     const stored = sessionStorage.getItem('root');
