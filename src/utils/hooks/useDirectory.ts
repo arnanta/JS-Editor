@@ -10,6 +10,7 @@ const useDirectory = () => {
     parent: IFile.FolderNode | null = root,
     content: Nullable<string>,
   ) => {
+    console.log('🚀 ~ useDirectory ~ parent:', parent);
     if (type === IFile.NODE_TYPE.FILE && !parent) {
       throw new Error("Can't add file as a root");
     }
@@ -22,8 +23,13 @@ const useDirectory = () => {
       if (parent) {
         const children = parent.getChildren();
 
-        const isSameChildExists = children.find((c) => c.name === name && c.type === type);
-        if (isSameChildExists !== undefined) return;
+        const casedNewName = name.trim().toLowerCase();
+        const isSameChildExists = children.find(
+          (c) => c.name.trim().toLowerCase() === casedNewName && c.type === type,
+        );
+        if (isSameChildExists !== undefined) {
+          throw new Error(`A ${type.toLowerCase()} named '${name}' already exists in this folder`);
+        }
 
         let newNode: IFile.FolderNode | IFile.Node;
 
