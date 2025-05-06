@@ -45,7 +45,7 @@
   box-shadow: rgba(100, 100, 111) 0px 0px 5px 0px;
 }
 
-.disabled {
+.disabled_options {
   opacity: 0.5;
   pointer-events: none;
   cursor: not-allowed;

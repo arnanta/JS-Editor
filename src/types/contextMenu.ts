@@ -2,6 +2,7 @@ export type ContextMenuData = {
   title: string;
   path?: string;
   key: string;
+  disabled?: boolean;
   subMenu?: Array<ContextMenuData>;
   onClick?: Function;
 };

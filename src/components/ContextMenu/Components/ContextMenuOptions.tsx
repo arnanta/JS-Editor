@@ -14,6 +14,8 @@ const ContextMenuOptions = ({
   const [showNestedContextMenu, setShowNestedContextMenu] = useState<boolean>(false);
 
   const handleOptionClick = (option: ContextMenuData.ContextMenuData) => {
+    if (option.disabled) return; // Add this line to prevent click on disabled items
+
     if (option.subMenu && option.subMenu.length) {
       setShowNestedContextMenu(true);
     } else {
@@ -24,6 +26,8 @@ const ContextMenuOptions = ({
   };
 
   const handleOptionMouseEnter = (option: ContextMenuData.ContextMenuData) => {
+    if (option.disabled) return; // Optional: prevent hover effects on disabled items
+
     if (option.subMenu && option.subMenu.length) {
       setShowNestedContextMenu(true);
     }
@@ -36,7 +40,9 @@ const ContextMenuOptions = ({
 
   return (
     <div
-      className={`${style.header_options} ${isSelected ? style.selected_options : ''}`}
+      className={`${style.header_options} ${isSelected ? style.selected_options : ''} ${
+        option.disabled ? style.disabled_options : ''
+      }`} // Add disabled class
       onClick={() => handleOptionClick(option)}
       onMouseEnter={() => handleOptionMouseEnter(option)}
       ref={targetElement}

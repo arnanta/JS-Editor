@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import style from './Folder.module.css';
 import { IFile } from '@/types';
 import { FolderOpen, Folder as FolderIcon } from '@/assets/icons';
@@ -43,7 +43,7 @@ const Folder = ({
 }: FolderProps) => {
   const { updateOpenedFiles } = useContext(FileContext);
   const [expanded, setExpanded] = useState(expandedFolders.has(item.name));
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   useEffect(() => {
     if (isCollapsed !== undefined) {
       setExpanded(false);
@@ -75,6 +75,22 @@ const Folder = ({
   };
 
   const isNodeCut = isCutOperation && copiedNode?.name === item.name;
+
+  useEffect(() => {
+    if (!isCreatingNew) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+        // Clicked outside the input
+        onCreate('');
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isCreatingNew]);
 
   // File node
   if (item.type === IFile.NODE_TYPE.FILE) {
@@ -169,6 +185,7 @@ const Folder = ({
         <div className={style.node}>
           <input
             autoFocus
+            ref={inputRef}
             type="text"
             className={style.renameInput}
             placeholder="Enter name"
