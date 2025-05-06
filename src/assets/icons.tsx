@@ -93,7 +93,7 @@ export const AddFile = () => (
     width="24px"
     fill="#e3e3e3"
   >
-    <path d="M440-240h80v-120h120v-80H520v-120h-80v120H320v80h120v120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
+    <path d="M440-440H320v-80h120v-120h80v120h120v80H520v120h-80v-120ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z" />
   </svg>
 );
 
@@ -105,7 +105,7 @@ export const Folder = () => (
     width="24px"
     fill="#e3e3e3"
   >
-    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z" />
+    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Z" />
   </svg>
 );
 
@@ -154,7 +154,6 @@ export const CollapseAll = () => (
     ></line>
   </svg>
 );
-
 export const ExplorerIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +166,7 @@ export const ExplorerIcon = () => (
   </svg>
 );
 
-export const FolderOpen = () => (
+export const CloseIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     height="24px"
@@ -175,7 +174,7 @@ export const FolderOpen = () => (
     width="24px"
     fill="#e3e3e3"
   >
-    <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z" />
+    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
   </svg>
 );
 
@@ -214,17 +213,6 @@ export const AddIcon = () => (
     <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
   </svg>
 );
-export const CloseIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    height="24px"
-    viewBox="0 -960 960 960"
-    width="24px"
-    fill="#e3e3e3"
-  >
-    <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-  </svg>
-);
 // Export all icons as named exports
 export default {
   ChevronDown,
@@ -243,5 +231,4 @@ export default {
   ChevronRight,
   DeleteIcon,
   AddIcon,
-  FolderOpen,
 };
