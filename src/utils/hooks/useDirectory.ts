@@ -8,6 +8,7 @@ const useDirectory = () => {
     name: string,
     type: IFile.NODE_TYPE,
     parent: IFile.FolderNode | null = root,
+    content: Nullable<string>,
   ) => {
     if (type === IFile.NODE_TYPE.FILE && !parent) {
       throw new Error("Can't add file as a root");
@@ -29,7 +30,7 @@ const useDirectory = () => {
         if (type === IFile.NODE_TYPE.FOLDER) {
           newNode = new IFile.FolderNode(name, type, parent);
         } else {
-          newNode = new IFile.Node(name, type, parent);
+          newNode = new IFile.Node(name, type, parent, content);
         }
         parent.addChildren(newNode);
       }
@@ -73,7 +74,7 @@ const useDirectory = () => {
   const initDirectory = () => {
     const rootName = generateUniqueName(16);
 
-    createNode(rootName, IFile.NODE_TYPE.FOLDER, null);
+    createNode(rootName, IFile.NODE_TYPE.FOLDER, null, null);
 
     // createNode('index.js', IFile.NODE_TYPE.FILE, );
   };
