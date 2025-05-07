@@ -16,7 +16,6 @@ const Console = () => {
   const path = 'root\\JS-Editor';
 
   // !TODO add all the functionality to context
-  console.log('🚀 ~ Console ~ setTerminalData:', setTerminalData);
   // const handleTerminalActionClick = (event: React.MouseEvent, action: string, terminalKey = '') => {
   //   event.stopPropagation();
   //   event.preventDefault();
