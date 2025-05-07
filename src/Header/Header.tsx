@@ -11,14 +11,25 @@ import {
 
 import ViewContext from '@/contexts/View/Context';
 import { ContextMenu } from '@/components';
-import { HeaderConstants } from '@/constants';
+import { HeaderConstants, TerminalConstants } from '@/constants';
+import TerminalContext from '@/contexts/Terminal/context';
+import FileContext from '@/contexts/File/Context';
 
 const Header = () => {
   const [isToolbarVisible, setIsToolbarVisible] = useState<boolean>(false);
+  const { root } = useContext(FileContext);
   const headerRef = useRef<HTMLDivElement>(null);
   const { showSidebar, showConsole, onClickSideBarIcon, onClickConsoleIcon } =
     useContext(ViewContext);
+  const { onCreateUpdateTerminalData, terminalData } = useContext(TerminalContext);
 
+  const handleConsoleIconClick = () => {
+    onClickConsoleIcon();
+    if (terminalData.size === 0 && root) {
+      TerminalConstants.initialTerminalData.CurrentPath = root.path;
+      onCreateUpdateTerminalData(TerminalConstants.initialTerminalData);
+    }
+  };
   window.addEventListener('click', (event: Event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -56,7 +67,7 @@ const Header = () => {
         <div className={style.icon_container} onClick={onClickSideBarIcon}>
           {showSidebar ? <SidebarVisible /> : <SidebarHidden />}
         </div>
-        <div className={style.icon_container} onClick={onClickConsoleIcon}>
+        <div className={style.icon_container} onClick={handleConsoleIconClick}>
           {showConsole ? <BottomSectionVisible /> : <BottomSectionHidden />}
         </div>
       </div>

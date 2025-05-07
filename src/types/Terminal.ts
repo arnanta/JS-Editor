@@ -16,9 +16,16 @@ export type TerminalValue = {
 };
 
 export type UseTerminalReturn = {
-  currentInput: string;
-  CurrentPath: string;
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleKeydown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleKeydown: (event: React.KeyboardEvent<HTMLInputElement>, currentPath: string) => void;
   terminalValues: TerminalValue[];
+};
+
+export type TerminalData = {
+  title: string;
+  CurrentInput: string;
+  CurrentPath: string;
+  terminalValues: {
+    path: string;
+    value: string;
+  }[];
 };

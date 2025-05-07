@@ -1,18 +1,32 @@
-import React, { JSX } from 'react';
+import React, { JSX, useContext } from 'react';
 import { TerminalConstants } from '@/constants';
-import { TerminalType } from '@/types';
+import TerminalContext from '@/contexts/Terminal/context';
+import { TERMINAL_HEADER_ACTION } from '@/types';
+import ViewContext from '@/contexts/View/Context';
+import FileContext from '@/contexts/File/Context';
 
 const TerminalHeader = () => {
-  const handleTerminalActionClick = (event: React.MouseEvent, action: string, terminalKey = '') => {
+  const { root } = useContext(FileContext);
+  const { onDeleteTerminal, onCreateUpdateTerminalData, selectedTerminal } =
+    useContext(TerminalContext);
+  const { onClickConsoleIcon } = useContext(ViewContext);
+
+  const handleTerminalActionClick = (event: React.MouseEvent, action: string) => {
     event.stopPropagation();
-    event.preventDefault();
-    console.log('🚀 ~ handleTerminalActionClick ~ action, terminalKey:', action, terminalKey);
+    if (action === TERMINAL_HEADER_ACTION.DELETE) {
+      onDeleteTerminal(selectedTerminal);
+    } else if (action === TERMINAL_HEADER_ACTION.CLOSE) {
+      onClickConsoleIcon();
+    } else if (action === TERMINAL_HEADER_ACTION['ADD-TERMINAL'] && root) {
+      TerminalConstants.initialTerminalData.CurrentPath = root.path;
+      onCreateUpdateTerminalData(TerminalConstants.initialTerminalData);
+    }
   };
   return (
     <div>
       {(
         Object.entries(TerminalConstants.HEADER_ICON_DATA) as [
-          TerminalType.TERMINAL_HEADER_ACTION,
+          TERMINAL_HEADER_ACTION,
           () => JSX.Element,
         ][]
       ).map(([action, IconComponent]) => (
