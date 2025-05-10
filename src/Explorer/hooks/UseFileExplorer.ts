@@ -74,8 +74,8 @@ export const useFileExplorer = () => {
         selectedFolder,
       );
       setIsCreatingNew(false);
-    } catch (error: any) {
-      alert(`Failed to create: ${error.message}`);
+    } catch (error: unknown) {
+      alert(`Failed to create: ${(error as Error).message}`);
     }
   };
 
@@ -98,10 +98,10 @@ export const useFileExplorer = () => {
       if (isCutOperation) {
         try {
           deleteNode(copiedNode.name, copiedNode.getParent()!);
-        } catch (error) {
+        } catch (error: unknown) {
           alert(
             `Failed to delete during cut operation: ${
-              error instanceof Error ? error.message : 'Unknown error'
+              error instanceof Error ? (error as Error).message : 'Unknown error'
             }`,
           );
           return;
@@ -110,7 +110,7 @@ export const useFileExplorer = () => {
 
       setCopiedNode(null);
       setIsCutOperation(false);
-    } catch (error) {
+    } catch (error: unknown) {
       alert(`Failed to paste: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -134,8 +134,8 @@ export const useFileExplorer = () => {
 
     try {
       renameNode(renamingNode.name, trimmedNewName, renamingNode.getParent());
-    } catch (error: any) {
-      alert(`Failed to rename: ${error.message}`);
+    } catch (error: unknown) {
+      alert(`Failed to rename: ${(error as Error).message}`);
       return;
     }
 
@@ -162,7 +162,7 @@ export const useFileExplorer = () => {
             if (openedFiles.has(contextMenuNode.name)) {
               closeFile(contextMenuNode);
             }
-          } catch (error) {
+          } catch (error: unknown) {
             alert(`Failed to delete: ${error instanceof Error ? error.message : 'Unknown error'}`);
           }
         } else {
