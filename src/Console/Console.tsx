@@ -6,6 +6,7 @@ import TerminalHeader from './Component/TerminalHeader/TerminalHeader';
 import { TerminalType } from '@/types';
 
 const Console = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [terminalData, setTerminalData] = useState<TerminalType.TerminalValue[]>([
     { value: 'Terminal', key: crypto.randomUUID() },
     { value: 'Terminal', key: crypto.randomUUID() },
